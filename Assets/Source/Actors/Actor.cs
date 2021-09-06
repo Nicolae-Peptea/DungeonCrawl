@@ -57,7 +57,8 @@ namespace DungeonCrawl.Actors
                 }
                 else
                 {
-                    UserInterface.Singleton.SetText("Well, it seems I can't go there!", UserInterface.TextPosition.BottomCenter);
+                    UserInterface.Singleton.SetText("Well, it seems I can't go there!", 
+                        UserInterface.TextPosition.BottomCenter);
                 }
             }
         }
