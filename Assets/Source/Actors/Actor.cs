@@ -1,4 +1,5 @@
-﻿using DungeonCrawl.Core;
+﻿using Assets.Source.Core;
+using DungeonCrawl.Core;
 using UnityEngine;
 
 namespace DungeonCrawl.Actors
@@ -53,6 +54,10 @@ namespace DungeonCrawl.Actors
                 {
                     // Allowed to move
                     Position = targetPosition;
+                }
+                else
+                {
+                    UserInterface.Singleton.SetText("Well, it seems I can't go there!", UserInterface.TextPosition.BottomCenter);
                 }
             }
         }
