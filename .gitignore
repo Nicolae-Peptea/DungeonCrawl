@@ -122,6 +122,8 @@ modules.xml
 # Visual Studio cache directory
 .vs/
 .vsconfig
+/Packages/
+/ProjectSettings
 
 # Gradle cache directory
 .gradle/
