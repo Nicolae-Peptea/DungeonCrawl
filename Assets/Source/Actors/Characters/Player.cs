@@ -13,7 +13,7 @@ namespace DungeonCrawl.Actors.Characters
 
         public override string DefaultName => "Player";
 
-        public override int Health { get { return Health; } protected set { Health = 100; } }
+        public new int Health => 100;
 
         private List<Item> _inventory = new List<Item>();
 
