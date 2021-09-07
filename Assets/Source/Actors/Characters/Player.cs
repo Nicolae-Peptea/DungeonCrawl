@@ -1,9 +1,35 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
+using DungeonCrawl.Actors.Items;
+using DungeonCrawl.Core;
+using Assets.Source.Core;
 
 namespace DungeonCrawl.Actors.Characters
 {
     public class Player : Character
     {
+        public override int DefaultSpriteId => 24;
+
+        public override string DefaultName => "Player";
+
+        public override int Health { get { return Health; } protected set { Health = 100; } }
+
+        private List<Item> _inventory = new List<Item>();
+
+        public int Defence { get; set; } = 5;
+
+        public int Attack { get; set; } = 15;
+
+        public override bool OnCollision(Actor anotherActor)
+        {
+            return false;
+        }
+
+        protected override void OnDeath()
+        {
+            Debug.Log("Oh no, I'm dead!");
+        }
+
         protected override void OnUpdate(float deltaTime)
         {
             if (Input.GetKeyDown(KeyCode.W))
@@ -29,19 +55,29 @@ namespace DungeonCrawl.Actors.Characters
                 // Move right
                 TryMove(Direction.Right);
             }
+
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                PickItems();
+            }
         }
 
-        public override bool OnCollision(Actor anotherActor)
+        private void PickItems()
         {
-            return false;
-        }
+            var actorAtTargetPosition = ActorManager.Singleton.GetActorAt(Position);
+            if (actorAtTargetPosition is Item)
+            {
 
-        protected override void OnDeath()
-        {
-            Debug.Log("Oh no, I'm dead!");
-        }
 
-        public override int DefaultSpriteId => 24;
-        public override string DefaultName => "Player";
+                UserInterface.Singleton.SetText("Manca-ti-a-si pula ta doamne",
+                        UserInterface.TextPosition.BottomCenter);
+            }
+            else
+            {
+                UserInterface.Singleton.SetText("vRAJEALA FRAIERE",
+                    UserInterface.TextPosition.BottomCenter);
+            }
+
+        }
     }
 }
