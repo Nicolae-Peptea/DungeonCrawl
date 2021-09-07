@@ -67,17 +67,9 @@ namespace DungeonCrawl.Actors.Characters
             var actorAtTargetPosition = ActorManager.Singleton.GetActorAt(Position);
             if (actorAtTargetPosition is Item)
             {
-
-
-                UserInterface.Singleton.SetText("Manca-ti-a-si pula ta doamne",
-                        UserInterface.TextPosition.BottomCenter);
+                _inventory.Add((Item)actorAtTargetPosition);
+                ActorManager.Singleton.DestroyActor(actorAtTargetPosition);
             }
-            else
-            {
-                UserInterface.Singleton.SetText("vRAJEALA FRAIERE",
-                    UserInterface.TextPosition.BottomCenter);
-            }
-
         }
     }
 }
