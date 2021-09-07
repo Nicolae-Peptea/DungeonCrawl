@@ -2,8 +2,6 @@
 {
     public abstract class Item : Actor
     {
-        public int Damage { get; private set; }
-
         public bool SomethingAbove { get; private set; } = false;
 
         public override bool OnCollision(Actor anotherActor)
