@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using DungeonCrawl.Actors.Items;
 using DungeonCrawl.Core;
 using Assets.Source.Core;
+using System;
 
 namespace DungeonCrawl.Actors.Characters
 {
@@ -64,10 +65,10 @@ namespace DungeonCrawl.Actors.Characters
 
         private void PickItems()
         {
-            var actorAtTargetPosition = ActorManager.Singleton.GetActorAt(Position);
-            if (actorAtTargetPosition is Item)
+            var actorAtTargetPosition = ActorManager.Singleton.GetActorAt<Item>(Position);
+            if (actorAtTargetPosition != null)
             {
-                _inventory.Add((Item)actorAtTargetPosition);
+                _inventory.Add(actorAtTargetPosition.Clone());
                 ActorManager.Singleton.DestroyActor(actorAtTargetPosition);
             }
         }

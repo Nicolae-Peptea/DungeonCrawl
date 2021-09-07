@@ -25,5 +25,7 @@
         ///     All items are drawn "above" floor etc
         /// </summary>
         public override int Z => -1;
+
+        public abstract Item Clone();
     }
 }
