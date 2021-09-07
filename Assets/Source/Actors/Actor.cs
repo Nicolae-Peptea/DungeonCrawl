@@ -1,4 +1,5 @@
 ﻿using Assets.Source.Core;
+using DungeonCrawl.Actors.Items;
 using DungeonCrawl.Core;
 using UnityEngine;
 
@@ -42,10 +43,19 @@ namespace DungeonCrawl.Actors
             (int x, int y) targetPosition = (Position.x + vector.x, Position.y + vector.y);
 
             var actorAtTargetPosition = ActorManager.Singleton.GetActorAt(targetPosition);
+            var actorAtCurrentPosition = ActorManager.Singleton.GetActorAt<Item>(Position);
+
+            UserInterface.Singleton.SetText("",
+                        UserInterface.TextPosition.BottomCenter);
 
             if (actorAtTargetPosition == null)
             {
                 // No obstacle found, just move
+                if (actorAtCurrentPosition != null)
+                {
+                    actorAtCurrentPosition.MakeVisible();
+                }
+
                 Position = targetPosition;
             }
             else
@@ -53,6 +63,11 @@ namespace DungeonCrawl.Actors
                 if (actorAtTargetPosition.OnCollision(this))
                 {
                     // Allowed to move
+                    if (actorAtTargetPosition.GetType().IsSubclassOf(typeof(Item)))
+                    {
+                        ((Item)actorAtTargetPosition).Hide();
+                    }
+
                     Position = targetPosition;
                 }
                 else
@@ -72,6 +87,11 @@ namespace DungeonCrawl.Actors
         public virtual bool OnCollision(Actor anotherActor)
         {
             // All actors are passable by default
+            return true;
+        }
+
+        public virtual bool OnLeave(Actor anotherActor)
+        {
             return true;
         }
 

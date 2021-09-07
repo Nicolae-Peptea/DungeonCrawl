@@ -1,14 +1,26 @@
-﻿using DungeonCrawl.Core;
-
-namespace DungeonCrawl.Actors.Items
+﻿namespace DungeonCrawl.Actors.Items
 {
     public abstract class Item : Actor
     {
         public int Damage { get; private set; }
 
+        public bool SomethingAbove { get; private set; } = false;
+
         public override bool OnCollision(Actor anotherActor)
         {
             return true;
+        }
+
+        public void Hide()
+        {
+            SetSprite(1);
+            SomethingAbove = true;
+        }
+
+        public void MakeVisible()
+        {
+            SetSprite(DefaultSpriteId);
+            SomethingAbove = false;
         }
 
         /// <summary>

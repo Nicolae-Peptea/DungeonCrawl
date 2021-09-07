@@ -123,7 +123,7 @@ modules.xml
 .vs/
 .vsconfig
 /Packages/
-/ProjectSettings
+/ProjectSettings/
 
 # Gradle cache directory
 .gradle/
