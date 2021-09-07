@@ -8,8 +8,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
     <ProjectGuid>{B34BFC41-8A09-0A29-2306-C896EE80CEB5}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -54,21 +53,22 @@
     <UnityVersion>2020.3.17f1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Assets\Source\Actors\Items\Key.cs" />
     <Compile Include="Assets\Source\Actors\Static\Wall.cs" />
     <Compile Include="Assets\Source\Actors\Static\Floor.cs" />
+    <Compile Include="Assets\Source\Actors\Items\Item.cs" />
     <Compile Include="Assets\Source\Core\CameraController.cs" />
     <Compile Include="Assets\Source\Core\UserInterface.cs" />
     <Compile Include="Assets\Source\Actors\Actor.cs" />
+    <Compile Include="Assets\Source\Actors\Items\Sword.cs" />
     <Compile Include="Assets\Source\Actors\Characters\Player.cs" />
     <Compile Include="Assets\Source\Actors\Characters\Character.cs" />
     <Compile Include="Assets\Source\Actors\Characters\Skeleton.cs" />
     <Compile Include="Assets\Source\Core\MapLoader.cs" />
     <Compile Include="Assets\Source\Utilities.cs" />
+    <Compile Include="Assets\Source\Actors\Items\Key.cs" />
     <Compile Include="Assets\Source\Core\GameManager.cs" />
     <Compile Include="Assets\Source\Core\ActorManager.cs" />
-    <Compile Include="Assets\Source\Actors\Items\Sword.cs" />
-    <Compile Include="Assets\Source\Actors\Items\Item.cs" />
+    <Compile Include="Assets\Source\Actors\Items\ItemType.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

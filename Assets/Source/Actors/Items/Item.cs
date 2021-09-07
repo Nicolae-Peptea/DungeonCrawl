@@ -4,6 +4,10 @@
     {
         public bool SomethingAbove { get; private set; } = false;
 
+        public abstract ItemType Type { get; }
+
+        public abstract int Value {get; }
+
         public override bool OnCollision(Actor anotherActor)
         {
             return true;
