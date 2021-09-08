@@ -41,6 +41,7 @@ namespace DungeonCrawl.Actors.Characters
 
         protected override void OnUpdate(float deltaTime)
         {
+            Debug.Log("x: " + Position.x + ", y: " + Position.y);
             DisplayStatus();
 
             if (Input.GetKeyDown(KeyCode.W))

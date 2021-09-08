@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using DungeonCrawl.Core;
+using System;
 
 namespace DungeonCrawl.Actors.Characters
 {
@@ -9,7 +10,13 @@ namespace DungeonCrawl.Actors.Characters
 
         public override int Attack { get; protected set; } = 10;
 
-        private Player player;
+        private float seconds = 0;
+
+        private const int DISTANCE = 5;
+
+        private const float ACCEPTABLE_MOVING_INTERVAL = 0.2f;
+
+        private Player player = (Player)ActorManager.Singleton.GetPlayer();
 
         public override bool OnCollision(Actor anotherActor)
         {
@@ -22,15 +29,17 @@ namespace DungeonCrawl.Actors.Characters
 
         protected override void OnUpdate(float detaTime)
         {
-            CheckForPlayerAround();
-
-            if (player != null)
+            seconds += detaTime;
+            if (seconds > ACCEPTABLE_MOVING_INTERVAL)
             {
-                (int x, int y) newPosition;
-                newPosition.x = player.Position.x;
+                Direction direction = GetDirectionTowardsPlayer();
+                if (Math.Abs(player.Position.x - Position.x) <= DISTANCE
+                    && Math.Abs(player.Position.y - Position.y) <= DISTANCE)
+                {
+                    TryMove(direction);
+                }
+                seconds = 0;
             }
-               
-
         }
 
         protected override void OnDeath()
@@ -39,30 +48,54 @@ namespace DungeonCrawl.Actors.Characters
             Debug.Log("Well, I was already dead anyway...");
         }
 
-        private bool CheckForPlayerAround()
+        public Direction GetDirectionTowardsPlayer()
         {
-            int buffer = 1;
-            int minPositionX = Position.x - buffer;
-            int maxPositionX = Position.x + buffer;
+            int ghostRow = Position.y;
+            int ghostCol = Position.x;
+            int playerRow = player.Position.y;
+            int playerCol = player.Position.x;
 
-            int minPositionY = Position.y - buffer;
-            int maxPositionY = Position.y + buffer;
-
-            for (int X = minPositionX; X <= maxPositionX; X++)
+            if (ghostRow > playerRow)
             {
-                for (int Y = minPositionY; Y <= maxPositionY; Y++)
+                if (ghostCol < playerCol)
                 {
-                    (int x, int y) positionToCheck = (Position.x + X, Position.y + Y);
-                    var currentActor = ActorManager.Singleton.GetActorAt<Actor>(positionToCheck);
-
-                    if (currentActor is Player player)
-                    {
-                        this.player = player;
-                        return true;
-                    } 
+                    return Utilities.GetRandomDirectionFromCadran(1);
+                }
+                else if (ghostCol > playerCol)
+                {
+                    return Utilities.GetRandomDirectionFromCadran(2);
+                }
+                else
+                {
+                    return Direction.Down;
                 }
             }
-            return false;
+            else if (ghostRow < playerRow)
+            {
+                if (ghostCol < playerCol)
+                {
+                    return Utilities.GetRandomDirectionFromCadran(3);
+                }
+                else if (ghostCol > playerCol)
+                {
+                    return Utilities.GetRandomDirectionFromCadran(4);
+                }
+                else
+                {
+                    return Direction.Up;
+                }
+            }
+            else
+            {
+                if (ghostCol < playerCol)
+                {
+                    return Direction.Right;
+                }
+                else
+                {
+                    return Direction.Left;
+                }
+            }
         }
 
         public override int DefaultSpriteId => 313;

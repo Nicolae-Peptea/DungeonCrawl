@@ -3,6 +3,7 @@ using DungeonCrawl.Actors.Items;
 using DungeonCrawl.Core;
 using UnityEngine;
 using System;
+using DungeonCrawl.Actors.Characters;
 
 namespace DungeonCrawl.Actors
 {
@@ -58,7 +59,6 @@ namespace DungeonCrawl.Actors
                 }
 
                 Position = targetPosition;
-                //CameraController.Singleton.Position = this.Position;
             }
             else
             {
@@ -71,13 +71,21 @@ namespace DungeonCrawl.Actors
                     }
 
                     Position = targetPosition;
-                    //CameraController.Singleton.Position = this.Position;
+
                 }
                 else
                 {
-                    UserInterface.Singleton.SetText("Well, it seems I can't go there!", 
+                    if (this is Player)
+                    {
+                        UserInterface.Singleton.SetText("Well, it seems I can't go there!",
                         UserInterface.TextPosition.BottomCenter);
+                    }
                 }
+            }
+
+            if (this is Player)
+            {
+                CameraController.Singleton.Position = this.Position;
             }
         }
 

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using DungeonCrawl.Actors;
+using DungeonCrawl.Actors.Characters;
 using UnityEngine;
 using UnityEngine.U2D;
 
@@ -118,6 +119,11 @@ namespace DungeonCrawl.Core
             _allActors.Add(component);
 
             return component;
+        }
+
+        public Actor GetPlayer()
+        {
+            return _allActors.FirstOrDefault(actor => actor.GetType() == typeof(Player));
         }
     }
 }
