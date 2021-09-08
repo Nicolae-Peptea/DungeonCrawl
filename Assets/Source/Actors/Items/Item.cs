@@ -6,7 +6,7 @@
 
         public abstract ItemType Type { get; }
 
-        public abstract int Value {get; }
+        public abstract int Value { get; }
 
         public override bool OnCollision(Actor anotherActor)
         {
@@ -30,6 +30,12 @@
         /// </summary>
         public override int Z => -1;
 
-        public abstract Item Clone();
+        public Item Clone()
+        {
+            Item clone = Instantiate(this);
+            clone.transform.localScale = new UnityEngine.Vector3(0, 0, 0);
+            clone.name = this.name;
+            return clone;
+        }
     }
 }
