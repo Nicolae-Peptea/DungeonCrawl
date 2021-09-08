@@ -10,36 +10,22 @@ namespace DungeonCrawl.Actors.Characters
 
         public override int Attack { get; protected set; } = 10;
 
-        private float seconds = 0;
+        private Player _player;
 
-        private const int DISTANCE = 5;
+        private bool _foundThePlayer;
 
-        private const float ACCEPTABLE_MOVING_INTERVAL = 0.2f;
+        private const float SECONDS_TO_WAIT_UNTIL_MOVING = 0.2f;
 
-        private Player player = (Player)ActorManager.Singleton.GetPlayer();
+        private float _wait = 0;
 
         public override bool OnCollision(Actor anotherActor)
         {
             if (anotherActor is Player player)
             {
                 ApplyDamage(player.Attack);
+                return false;
             }
             return true;
-        }
-
-        protected override void OnUpdate(float detaTime)
-        {
-            seconds += detaTime;
-            if (seconds > ACCEPTABLE_MOVING_INTERVAL)
-            {
-                Direction direction = GetDirectionTowardsPlayer();
-                if (Math.Abs(player.Position.x - Position.x) <= DISTANCE
-                    && Math.Abs(player.Position.y - Position.y) <= DISTANCE)
-                {
-                    TryMove(direction);
-                }
-                seconds = 0;
-            }
         }
 
         protected override void OnDeath()
@@ -48,12 +34,55 @@ namespace DungeonCrawl.Actors.Characters
             Debug.Log("Well, I was already dead anyway...");
         }
 
+        protected override void OnUpdate(float detaTime)
+        {
+            _wait += detaTime;
+
+            if (_foundThePlayer)
+            {
+                if (_wait > SECONDS_TO_WAIT_UNTIL_MOVING)
+                {
+                    Direction direction = GetDirectionTowardsPlayer();
+                    TryMove(direction);
+                    _wait = 0;
+                }
+            }
+            else
+            {
+                CheckForPlayerAround();
+            }
+        }
+
+        private void CheckForPlayerAround()
+        {
+            int buffer = 3;
+            int minPositionX = Position.x - buffer;
+            int maxPositionX = Position.x + buffer;
+
+            int minPositionY = Position.y - buffer;
+            int maxPositionY = Position.y + buffer;
+
+            for (int X = minPositionX; X <= maxPositionX; X++)
+            {
+                for (int Y = minPositionY; Y <= maxPositionY; Y++)
+                {
+                    (int x, int y) positionToCheck = (X, Y);
+                    var currentActor = ActorManager.Singleton.GetActorAt<Actor>(positionToCheck);
+                    if (currentActor is Player player)
+                    {
+                        this._player = player;
+                        _foundThePlayer = true;
+                    }
+                }
+            }
+        }
+
         public Direction GetDirectionTowardsPlayer()
         {
             int ghostRow = Position.y;
             int ghostCol = Position.x;
-            int playerRow = player.Position.y;
-            int playerCol = player.Position.x;
+            int playerRow = _player.Position.y;
+            int playerCol = _player.Position.x;
 
             if (ghostRow > playerRow)
             {

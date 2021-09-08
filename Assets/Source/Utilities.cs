@@ -39,26 +39,14 @@ namespace DungeonCrawl
         public static Direction GetRandomDirectionFromCadran(int cadran)
         {
             Random rand = new Random();
-            Enum[] enumValues;
-
-            switch (cadran)
+            Enum[] enumValues = cadran switch
             {
-                case 1:
-                    enumValues = new Enum[] { Direction.Down, Direction.Right };
-                    break;
-                case 2:
-                    enumValues = new Enum[] { Direction.Down, Direction.Left };
-                    break;
-                case 3:
-                    enumValues = new Enum[] { Direction.Up, Direction.Right };
-                    break;
-                case 4:
-                    enumValues = new Enum[] { Direction.Up, Direction.Left };
-                    break;
-                default:
-                    enumValues = (Enum[])Enum.GetValues(typeof(Direction));
-                    break;
-            }
+                1 => new Enum[] { Direction.Down, Direction.Right },
+                2 => new Enum[] { Direction.Down, Direction.Left },
+                3 => new Enum[] { Direction.Up, Direction.Right },
+                4 => new Enum[] { Direction.Up, Direction.Left },
+                _ => (Enum[])Enum.GetValues(typeof(Direction)),
+            };
             return (Direction)enumValues.GetValue(rand.Next(enumValues.Length));
         }
     }
