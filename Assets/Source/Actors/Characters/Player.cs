@@ -4,6 +4,7 @@ using DungeonCrawl.Actors.Items;
 using DungeonCrawl.Core;
 using Assets.Source.Core;
 using System;
+using UnityEngine.UI;
 
 namespace DungeonCrawl.Actors.Characters
 {
@@ -42,6 +43,8 @@ namespace DungeonCrawl.Actors.Characters
 
         protected override void OnUpdate(float deltaTime)
         {
+            DisplayStatus();
+
             if (Input.GetKeyDown(KeyCode.W))
             {
                 // Move up
@@ -126,6 +129,18 @@ namespace DungeonCrawl.Actors.Characters
             if (item.Type == ItemType.ATTACK)
             {
                 Attack += item.Value;
+            }
+        }
+
+        public void DisplayStatus()
+        {
+            GameObject.Find("HPNumber").GetComponent<Text>().text = "" + Health;
+            GameObject.Find("AttackNumber").GetComponent<Text>().text = "" + Attack;
+            GameObject.Find("DefenseNumber").GetComponent<Text>().text = "" + Attack;
+
+            foreach (var gameObject in GameObject.FindGameObjectsWithTag("status"))
+            {
+                gameObject.transform.localScale = new Vector3(1, 1, 1);
             }
         }
     }
