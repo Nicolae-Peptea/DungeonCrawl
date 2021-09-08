@@ -17,8 +17,6 @@ namespace DungeonCrawl.Actors.Characters
 
         public override int Attack { get; protected set; } = 5;
 
-        
-
         private Inventory _inventory = new Inventory();
 
         private void Start()

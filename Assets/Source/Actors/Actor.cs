@@ -57,7 +57,7 @@ namespace DungeonCrawl.Actors
                 }
 
                 Position = targetPosition;
-                CameraController.Singleton.Position = this.Position;
+                //CameraController.Singleton.Position = this.Position;
             }
             else
             {
@@ -70,7 +70,7 @@ namespace DungeonCrawl.Actors
                     }
 
                     Position = targetPosition;
-                    CameraController.Singleton.Position = this.Position;
+                    //CameraController.Singleton.Position = this.Position;
                 }
                 else
                 {
