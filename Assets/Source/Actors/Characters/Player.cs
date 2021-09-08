@@ -15,7 +15,12 @@ namespace DungeonCrawl.Actors.Characters
 
         public new int Health => 100;
 
-        private List<Item> _inventory = new List<Item>();
+        private Inventory _inventory = new Inventory();
+
+        private void Start()
+        {
+            CameraController.Singleton.Position = this.Position;
+        }
 
         public int Defence { get; set; } = 5;
 
@@ -60,6 +65,16 @@ namespace DungeonCrawl.Actors.Characters
             if (Input.GetKeyDown(KeyCode.E))
             {
                 PickItems();
+                if (_inventory.IsInventoryVisible)
+                {
+                    _inventory.DisplayInventory();
+                    _inventory.DisplayInventory();
+                }
+            }
+
+            if (Input.GetKeyDown(KeyCode.I))
+            {
+                _inventory.DisplayInventory();
             }
         }
 
@@ -68,7 +83,9 @@ namespace DungeonCrawl.Actors.Characters
             var actorAtTargetPosition = ActorManager.Singleton.GetActorAt<Item>(Position);
             if (actorAtTargetPosition != null)
             {
-                _inventory.Add(actorAtTargetPosition.Clone());
+                Item clone = Instantiate(actorAtTargetPosition, transform.position, transform.rotation);
+                clone.name = this.name;
+                _inventory.AddItem(clone);
                 ActorManager.Singleton.DestroyActor(actorAtTargetPosition);
             }
         }
