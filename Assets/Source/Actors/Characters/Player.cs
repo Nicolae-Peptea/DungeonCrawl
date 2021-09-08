@@ -37,6 +37,8 @@ namespace DungeonCrawl.Actors.Characters
         protected override void OnDeath()
         {
             Debug.Log("Oh no, I'm dead!");
+            HideStatus();
+            DisplayDeadScreen();
         }
 
         protected override void OnUpdate(float deltaTime)
@@ -138,6 +140,22 @@ namespace DungeonCrawl.Actors.Characters
             GameObject.Find("DefenseNumber").GetComponent<Text>().text = "" + Attack;
 
             foreach (var gameObject in GameObject.FindGameObjectsWithTag("status"))
+            {
+                gameObject.transform.localScale = new Vector3(1, 1, 1);
+            }
+        }
+
+        public void HideStatus()
+        {
+            foreach (var gameObject in GameObject.FindGameObjectsWithTag("status"))
+            {
+                gameObject.transform.localScale = new Vector3(0, 0, 0);
+            }
+        }
+
+        public void DisplayDeadScreen()
+        {
+            foreach (var gameObject in GameObject.FindGameObjectsWithTag("deadScreen"))
             {
                 gameObject.transform.localScale = new Vector3(1, 1, 1);
             }
