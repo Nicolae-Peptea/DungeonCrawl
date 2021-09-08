@@ -89,5 +89,17 @@ namespace DungeonCrawl.Actors.Characters
                 ActorManager.Singleton.DestroyActor(actorAtTargetPosition);
             }
         }
+
+        public bool HasKey()
+        {
+            foreach (Item item in _inventory.GetInventory())
+            {
+                if (item is Key)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }
