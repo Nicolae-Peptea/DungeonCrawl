@@ -87,8 +87,17 @@ namespace DungeonCrawl.Actors.Characters
             var actorAtTargetPosition = ActorManager.Singleton.GetActorAt<Item>(Position);
             if (actorAtTargetPosition != null)
             {
-                 _inventory.AddItem(actorAtTargetPosition.Clone());
+                EnhanceAbility(actorAtTargetPosition);
+                _inventory.AddItem(actorAtTargetPosition.Clone());
                 ActorManager.Singleton.DestroyActor(actorAtTargetPosition);
+            }
+        }
+
+        private void EnhanceAbility(Item item)
+        {
+            if (item.Type == ItemType.ATTACK)
+            {
+                Attack += item.Value;
             }
         }
     }
