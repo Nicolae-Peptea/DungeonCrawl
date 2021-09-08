@@ -15,9 +15,12 @@ public class Portal : Actor
     {
         if (IsPlayerUnlocking(anotherActor))
         {
-            if (((Player)anotherActor).HasKey())
+            if (((Player)anotherActor).HasKey() && Unlocked == false)
             {
                 Unlock();
+            }
+            else if (Unlocked)
+            {
                 return true;
             }
         }
