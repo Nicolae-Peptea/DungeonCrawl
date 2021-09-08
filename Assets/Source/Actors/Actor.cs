@@ -20,7 +20,7 @@ namespace DungeonCrawl.Actors
         private (int x, int y) _position;
         private SpriteRenderer _spriteRenderer;
 
-        private void Awake()
+        protected virtual void Awake()
         {
             _spriteRenderer = GetComponent<SpriteRenderer>();
 
@@ -57,6 +57,7 @@ namespace DungeonCrawl.Actors
                 }
 
                 Position = targetPosition;
+                CameraController.Singleton.Position = this.Position;
             }
             else
             {
@@ -69,6 +70,7 @@ namespace DungeonCrawl.Actors
                     }
 
                     Position = targetPosition;
+                    CameraController.Singleton.Position = this.Position;
                 }
                 else
                 {
