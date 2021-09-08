@@ -2,6 +2,7 @@
 using DungeonCrawl.Actors.Items;
 using DungeonCrawl.Core;
 using UnityEngine;
+using System;
 
 namespace DungeonCrawl.Actors
 {
@@ -103,6 +104,11 @@ namespace DungeonCrawl.Actors
         /// <param name="deltaTime">Time (in seconds) since the last animation frame</param>
         protected virtual void OnUpdate(float deltaTime)
         {
+        }
+
+        public (int, int) GetActorPosition(Actor actor)
+        {
+            return actor.Position;
         }
 
         /// <summary>
