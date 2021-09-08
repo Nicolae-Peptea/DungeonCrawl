@@ -13,7 +13,10 @@ namespace DungeonCrawl.Actors.Characters
 
         public override string DefaultName => "Player";
 
-        public new int Health => 100;
+        public override int Health { get; set; } = 100;
+
+        public int Attack { get; private set; } = 15;
+
 
         private Inventory _inventory = new Inventory();
 
@@ -21,10 +24,6 @@ namespace DungeonCrawl.Actors.Characters
         {
             CameraController.Singleton.Position = this.Position;
         }
-
-        public int Defence { get; set; } = 5;
-
-        public int Attack { get; set; } = 15;
 
         public override bool OnCollision(Actor anotherActor)
         {
@@ -83,9 +82,7 @@ namespace DungeonCrawl.Actors.Characters
             var actorAtTargetPosition = ActorManager.Singleton.GetActorAt<Item>(Position);
             if (actorAtTargetPosition != null)
             {
-                Item clone = Instantiate(actorAtTargetPosition, transform.position, transform.rotation);
-                clone.name = this.name;
-                _inventory.AddItem(clone);
+                 _inventory.AddItem(actorAtTargetPosition.Clone());
                 ActorManager.Singleton.DestroyActor(actorAtTargetPosition);
             }
         }
