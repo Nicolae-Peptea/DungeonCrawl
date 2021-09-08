@@ -91,6 +91,34 @@ namespace DungeonCrawl.Actors.Characters
                 _inventory.AddItem(actorAtTargetPosition.Clone());
                 ActorManager.Singleton.DestroyActor(actorAtTargetPosition);
             }
+            if (HasAtLeastOneSword())
+            {
+                SetSprite(26);
+            }
+        }
+
+        public bool HasKey()
+        {
+            foreach (Item item in _inventory.GetInventory())
+            {
+                if (item is Key)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public bool HasAtLeastOneSword()
+        {
+            foreach (Item item in _inventory.GetInventory())
+            {
+                if (item is Sword)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         private void EnhanceAbility(Item item)
