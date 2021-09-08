@@ -13,10 +13,11 @@ namespace DungeonCrawl.Actors.Characters
 
         public override string DefaultName => "Player";
 
-        public override int Health { get; set; } = 100;
+        public override int Health { get; protected set; } = 100;
 
-        public int Attack { get; private set; } = 15;
+        public override int Attack { get; protected set; } = 5;
 
+        
 
         private Inventory _inventory = new Inventory();
 
@@ -27,6 +28,10 @@ namespace DungeonCrawl.Actors.Characters
 
         public override bool OnCollision(Actor anotherActor)
         {
+            if (anotherActor is Character character && character.IsAlive)
+            {
+                ApplyDamage(character.Attack);
+            }
             return false;
         }
 
