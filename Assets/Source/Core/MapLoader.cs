@@ -12,6 +12,8 @@ namespace DungeonCrawl.Core
     /// </summary>
     public static class MapLoader
     {
+        public static int currentLevel = 1;
+
         /// <summary>
         ///     Constructs map from txt file and spawns actors at appropriate positions
         /// </summary>
