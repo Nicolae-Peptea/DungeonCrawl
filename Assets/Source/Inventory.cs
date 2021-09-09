@@ -21,6 +21,11 @@ public class Inventory : MonoBehaviour
         _inventory.Add(item);
     }
 
+    public void SetInventory(List<Item> itemsList)
+    {
+        _inventory = itemsList;
+    }
+
     public List<Item> GetInventory()
     {
         return _inventory;
@@ -30,23 +35,7 @@ public class Inventory : MonoBehaviour
     {
         if (IsInventoryVisible == false)
         {
-            int swordNumber = 0;
-            int keyNumber = 0;
-
-            foreach (Item item in GetInventory())
-            {
-                if (item is Sword)
-                {
-                    swordNumber += 1;
-                }
-                else if (item is Key)
-                {
-                    keyNumber += 1;
-                }
-            }
-
-            GameObject.Find("SwordsNumber").GetComponent<Text>().text = "" + swordNumber;
-            GameObject.Find("KeysNumber").GetComponent<Text>().text = "" + keyNumber;
+            UpdateInventoryNumbers();
 
             foreach (var gameObject in GameObject.FindGameObjectsWithTag("inventory"))
             {
@@ -62,6 +51,29 @@ public class Inventory : MonoBehaviour
         }
 
         IsInventoryVisible = !IsInventoryVisible;
+    }
+
+    public void UpdateInventoryNumbers()
+    {
+        int swordNumber = GetItemNumbers()[0];
+        int axesNumber = GetItemNumbers()[1];
+        int keysNumber = GetItemNumbers()[2];
+        int potionsNumber = GetItemNumbers()[3];
+
+        GameObject.Find("SwordsNumber").GetComponent<Text>().text = "" + swordNumber;
+        GameObject.Find("AxesNumber").GetComponent<Text>().text = "" + axesNumber;
+        GameObject.Find("KeysNumber").GetComponent<Text>().text = "" + keysNumber;
+        GameObject.Find("PotionsNumber").GetComponent<Text>().text = "" + potionsNumber;
+    }
+
+    private int[] GetItemNumbers()
+    {
+        int swordNumber = _inventory.Count(n => n is Sword);
+        int axesNumber = _inventory.Count(n => n is Axe);
+        int keysNumber = _inventory.Count(n => n is Key);
+        int potionsNumber = _inventory.Count(n => n is HealthPotion);
+
+        return new int[] { swordNumber, axesNumber, keysNumber, potionsNumber};
     }
 
     public void RemoveItem(Item item)

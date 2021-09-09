@@ -2,6 +2,7 @@
 using System.Linq;
 using DungeonCrawl.Actors;
 using DungeonCrawl.Actors.Characters;
+using DungeonCrawl.Actors.Items;
 using UnityEngine;
 using UnityEngine.U2D;
 
@@ -16,6 +17,8 @@ namespace DungeonCrawl.Core
         ///     ActorManager singleton
         /// </summary>
         public static ActorManager Singleton { get; private set; }
+
+        public Player player { get; set; }
 
         private SpriteAtlas _spriteAtlas;
         private HashSet<Actor> _allActors;
@@ -76,6 +79,16 @@ namespace DungeonCrawl.Core
                 DestroyActor(actor);
         }
 
+        public void UpdatePlayer<T>(T component)
+        {
+            int spriteId = this.player.currentSpriteId;
+            int health = this.player.Health;
+            int attack = this.player.Attack;
+            List<Item> equipment = this.player.GetEquipmentAndInventory().Item1;
+            List<Item> inventory = this.player.GetEquipmentAndInventory().Item2;
+            (component as Player).SetFields(spriteId, health, attack, equipment, inventory);
+        }
+
         /// <summary>
         ///     Returns sprite with given ID
         /// </summary>
@@ -112,6 +125,10 @@ namespace DungeonCrawl.Core
             go.AddComponent<SpriteRenderer>();
 
             var component = go.AddComponent<T>();
+            if (component.DefaultName == "Player" && this.player != null)
+            {
+                UpdatePlayer(component);
+            }
 
             go.name = actorName ?? component.DefaultName;
             component.Position = (x, y);

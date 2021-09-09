@@ -73,10 +73,17 @@ namespace DungeonCrawl.Actors
                     {
                         if (MapLoader.currentLevel == 3)
                         {
-                            Utilities.DisplayDeadScreen();
+                            Utilities.DisplayEventScreen(false);
                         }
                         else
                         {
+                            ActorManager.Singleton.player = Instantiate((Player)this);
+                            ((Player)this).UseKey();
+                            ActorManager.Singleton.player.SetFields(((Player)this).currentSpriteId, 
+                                ((Player)this).Health, ((Player)this).Attack,
+                                ((Player)this).GetEquipmentAndInventory().Item1,
+                                ((Player)this).GetEquipmentAndInventory().Item2);
+
                             MapLoader.currentLevel += 1;
                             ActorManager.Singleton.DestroyAllActors();
                             MapLoader.LoadMap(MapLoader.currentLevel);

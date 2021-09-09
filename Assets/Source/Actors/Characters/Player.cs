@@ -14,6 +14,8 @@ namespace DungeonCrawl.Actors.Characters
     {
         public override int DefaultSpriteId => 24;
 
+        public int currentSpriteId = 24;
+
         public override string DefaultName => "Player";
 
         public override int Health { get; protected set; } = 100;
@@ -54,7 +56,7 @@ namespace DungeonCrawl.Actors.Characters
         {
             Debug.Log("Oh no, I'm dead!");
             HideStatus();
-            Utilities.DisplayDeadScreen();
+            Utilities.DisplayEventScreen(true);
         }
 
         protected override void OnUpdate(float deltaTime)
@@ -180,6 +182,34 @@ namespace DungeonCrawl.Actors.Characters
             }
         }
 
+        public void SetFields(int spriteId, int health, int attack, 
+            List<Item> equipment, List<Item> itemsList)
+        {
+            SetSprite(spriteId);
+            Health = health;
+            Attack = attack;
+            _equipment = equipment;
+            _inventory.SetInventory(itemsList);
+        }
+
+        public void UseKey()
+        {
+            foreach( Item item in _inventory.GetInventory())
+            {
+                if (item is Key)
+                {
+                    _inventory.RemoveItem(item);
+                }
+            }
+        }
+
+        public (List<Item>, List<Item>) GetEquipmentAndInventory()
+        {
+            List<Item> clonedequipment = new List<Item>(_equipment);
+            List<Item> clonedinventory = new List<Item>(_inventory.GetInventory());
+            return (clonedequipment, clonedinventory);
+        }
+
         private void DropItem(Item item)
         {
             if (item is Sword)
@@ -199,10 +229,12 @@ namespace DungeonCrawl.Actors.Characters
             if (_equipment.Any(item => item is Sword))
             {
                 SetSprite(26);
+                currentSpriteId = 26;
             }
             if (_equipment.Any(item => item is Axe))
             {
                 SetSprite(78);
+                currentSpriteId = 78;
             }
         }
 
@@ -228,14 +260,6 @@ namespace DungeonCrawl.Actors.Characters
             foreach (var gameObject in GameObject.FindGameObjectsWithTag("status"))
             {
                 gameObject.transform.localScale = new Vector3(0, 0, 0);
-            }
-        }
-
-        private void DisplayDeadScreen()
-        {
-            foreach (var gameObject in GameObject.FindGameObjectsWithTag("deadScreen"))
-            {
-                gameObject.transform.localScale = new Vector3(1, 1, 1);
             }
         }
     }

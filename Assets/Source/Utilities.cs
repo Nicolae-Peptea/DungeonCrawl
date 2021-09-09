@@ -51,9 +51,11 @@ namespace DungeonCrawl
             return (Direction)enumValues.GetValue(rand.Next(enumValues.Length));
         }
 
-        public static void DisplayDeadScreen()
+        public static void DisplayEventScreen(bool dead)
         {
-            foreach (var gameObject in GameObject.FindGameObjectsWithTag("winScreen"))
+            string screen = dead ? "deadScreen" : "winScreen";
+
+            foreach (var gameObject in GameObject.FindGameObjectsWithTag(screen))
             {
                 gameObject.transform.localScale = new Vector3(1, 1, 1);
             }
