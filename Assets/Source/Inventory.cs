@@ -33,21 +33,13 @@ public class Inventory : MonoBehaviour
 
     public void DisplayInventory()
     {
-        if (IsInventoryVisible == false)
-        {
-            UpdateInventoryNumbers();
+        UpdateInventoryNumbers();
 
-            foreach (var gameObject in GameObject.FindGameObjectsWithTag("inventory"))
-            {
-                gameObject.transform.localScale = new Vector3(1, 1, 1);
-            }
-        }
-        else
+        foreach (var gameObject in GameObject.FindGameObjectsWithTag("inventory"))
         {
-            foreach (var gameObject in GameObject.FindGameObjectsWithTag("inventory"))
-            {
-                gameObject.transform.localScale = new Vector3(0, 0, 0);
-            }
+            gameObject.transform.localScale = IsInventoryVisible 
+                ? new Vector3(0, 0, 0)
+                : new Vector3(1, 1, 1);
         }
 
         IsInventoryVisible = !IsInventoryVisible;

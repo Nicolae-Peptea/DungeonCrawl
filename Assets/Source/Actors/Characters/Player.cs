@@ -111,11 +111,7 @@ namespace DungeonCrawl.Actors.Characters
             if (Input.GetKeyDown(KeyCode.E))
             {
                 PickItems();
-                if (_inventory.IsInventoryVisible)
-                {
-                    _inventory.DisplayInventory();
-                    _inventory.DisplayInventory();
-                }
+                _inventory.UpdateInventoryNumbers();
             }
 
             if (Input.GetKeyDown(KeyCode.I))
@@ -126,6 +122,7 @@ namespace DungeonCrawl.Actors.Characters
             if (Input.GetKeyDown(KeyCode.H))
             {
                 TryToConsumeItem(ItemType.HEALTH);
+                _inventory.UpdateInventoryNumbers();
             }
 
             if (Input.GetKeyDown(KeyCode.F))
