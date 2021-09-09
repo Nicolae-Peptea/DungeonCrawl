@@ -50,46 +50,6 @@ namespace DungeonCrawl.Actors.Characters
             return false;
         }
 
-        public bool HasAtLeastOneSword()
-        {
-            foreach (Item item in _equipment)
-            {
-                if (item is Sword)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        public void DisplayStatus()
-        {
-            GameObject.Find("HPNumber").GetComponent<Text>().text = "" + Health;
-            GameObject.Find("AttackNumber").GetComponent<Text>().text = "" + Attack;
-            GameObject.Find("DefenseNumber").GetComponent<Text>().text = "" + Attack;
-
-            foreach (var gameObject in GameObject.FindGameObjectsWithTag("status"))
-            {
-                gameObject.transform.localScale = new Vector3(1, 1, 1);
-            }
-        }
-
-        public void HideStatus()
-        {
-            foreach (var gameObject in GameObject.FindGameObjectsWithTag("status"))
-            {
-                gameObject.transform.localScale = new Vector3(0, 0, 0);
-            }
-        }
-
-        public void DisplayDeadScreen()
-        {
-            foreach (var gameObject in GameObject.FindGameObjectsWithTag("deadScreen"))
-            {
-                gameObject.transform.localScale = new Vector3(1, 1, 1);
-            }
-        }
-
         protected override void OnDeath()
         {
             Debug.Log("Oh no, I'm dead!");
@@ -177,37 +137,36 @@ namespace DungeonCrawl.Actors.Characters
 
         private void EquipItem(ItemType itemType)
         {
-            Item itemFromInventory = _inventory.SelectItemByType(itemType);
-            Item itemFromInventoryCopy = itemFromInventory.Clone();
-
-            Item alreadyEquipped = _equipment.FirstOrDefault(item => item.Type == itemType);
-
-            if (alreadyEquipped == null)
+            try
             {
+                Item itemFromInventory = _inventory.SelectItemByType(itemType);
+                Item itemFromInventoryCopy = itemFromInventory.Clone();
+                Item alreadyEquipped = _equipment.FirstOrDefault(item => item.Type == itemType);
+
+                if (alreadyEquipped != null)
+                {
+                    AlterAbility(alreadyEquipped, true);
+                    DropItem(alreadyEquipped);
+                    _equipment.Remove(alreadyEquipped);
+                }
+
                 _inventory.RemoveItem(itemFromInventory);
-            }
-            else
-            {
-                _equipment.Remove(alreadyEquipped);
-                AlterAbility(itemFromInventoryCopy, true);
-            }
+                _equipment.Add(itemFromInventoryCopy);
+                AlterAbility(itemFromInventoryCopy, false);
+                UpdateStatus();
 
-            _equipment.Add(itemFromInventoryCopy);
-            AlterAbility(itemFromInventoryCopy, false);
-
-            if (HasAtLeastOneSword())
-            {
-                SetSprite(26);
+                ChangeSkin();
             }
-            else
+            catch (NullReferenceException)
             {
-                SetSprite(DefaultSpriteId);
+                Debug.Log("Already equpped");
             }
+           
         }
 
         private void AlterAbility(Item item, bool Decrease)
         {
-            int valueToAdd = Decrease ? -item.Value : item.Value;
+            int valueToAdd = Decrease ? -1 * item.Value : item.Value;
 
             if (item.Type == ItemType.ATTACK)
             {
@@ -218,6 +177,65 @@ namespace DungeonCrawl.Actors.Characters
             {
                 int enhancedHealth = Health + valueToAdd;
                 Health = enhancedHealth >= 100 ? 100 : enhancedHealth;
+            }
+        }
+
+        private void DropItem(Item item)
+        {
+            if (item is Sword)
+            {
+                ActorManager.Singleton.Spawn<Sword>(Position, item.name);
+            }
+
+            if (item is Axe)
+            {
+                ActorManager.Singleton.Spawn<Axe>(Position, item.name);
+            }
+          
+        }
+
+        private void ChangeSkin()
+        {
+            if (_equipment.Any(item => item is Sword))
+            {
+                SetSprite(26);
+            }
+            if (_equipment.Any(item => item is Axe))
+            {
+                SetSprite(78);
+            }
+        }
+
+        private void DisplayStatus()
+        {
+            UpdateStatus();
+
+            foreach (var gameObject in GameObject.FindGameObjectsWithTag("status"))
+            {
+                gameObject.transform.localScale = new Vector3(1, 1, 1);
+            }
+        }
+
+        private void UpdateStatus()
+        {
+            GameObject.Find("HPNumber").GetComponent<Text>().text = "" + Health;
+            GameObject.Find("AttackNumber").GetComponent<Text>().text = "" + Attack;
+            GameObject.Find("DefenseNumber").GetComponent<Text>().text = "" + Attack;
+        }
+
+        private void HideStatus()
+        {
+            foreach (var gameObject in GameObject.FindGameObjectsWithTag("status"))
+            {
+                gameObject.transform.localScale = new Vector3(0, 0, 0);
+            }
+        }
+
+        private void DisplayDeadScreen()
+        {
+            foreach (var gameObject in GameObject.FindGameObjectsWithTag("deadScreen"))
+            {
+                gameObject.transform.localScale = new Vector3(1, 1, 1);
             }
         }
     }
