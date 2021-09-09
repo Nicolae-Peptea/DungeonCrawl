@@ -20,6 +20,7 @@ namespace DungeonCrawl.Actors
         }
 
         private (int x, int y) _position;
+
         private SpriteRenderer _spriteRenderer;
 
         protected virtual void Awake()
@@ -44,68 +45,87 @@ namespace DungeonCrawl.Actors
             var vector = direction.ToVector();
             (int x, int y) targetPosition = (Position.x + vector.x, Position.y + vector.y);
 
-            var actorAtTargetPosition = ActorManager.Singleton.GetActorAt(targetPosition);
-            var actorAtCurrentPosition = ActorManager.Singleton.GetActorAt<Item>(Position);
-
+            Actor actorAtTargetPosition = ActorManager.Singleton.GetActorAt(targetPosition);
+            
             UserInterface.Singleton.SetText("",
                         UserInterface.TextPosition.BottomCenter);
 
             if (actorAtTargetPosition == null)
             {
-                // No obstacle found, just move
-                if (actorAtCurrentPosition != null)
-                {
-                    actorAtCurrentPosition.MakeVisible();
-                }
-
-                Position = targetPosition;
+                MoveOnEmptyPosition(targetPosition);
             }
             else
             {
-                if (actorAtTargetPosition.OnCollision(this))
-                {
-                    // Allowed to move
-                    if (actorAtTargetPosition.GetType().IsSubclassOf(typeof(Item)))
-                    {
-                        ((Item)actorAtTargetPosition).Hide();
-                    }
-                    else if (actorAtTargetPosition.GetType() == typeof(Portal))
-                    {
-                        if (MapLoader.currentLevel == 3)
-                        {
-                            Utilities.DisplayEventScreen(false);
-                        }
-                        else
-                        {
-                            ActorManager.Singleton.player = Instantiate((Player)this);
-                            ((Player)this).UseKey();
-                            ActorManager.Singleton.player.SetFields(((Player)this).currentSpriteId, 
-                                ((Player)this).Health, ((Player)this).Attack,
-                                ((Player)this).GetEquipmentAndInventory().Item1,
-                                ((Player)this).GetEquipmentAndInventory().Item2);
-
-                            MapLoader.currentLevel += 1;
-                            ActorManager.Singleton.DestroyAllActors();
-                            MapLoader.LoadMap(MapLoader.currentLevel);
-                        }
-                    }
-
-                    Position = targetPosition;
-
-                }
-                else
-                {
-                    if (this is Player)
-                    {
-                        UserInterface.Singleton.SetText("Well, it seems I can't go there!",
-                        UserInterface.TextPosition.BottomCenter);
-                    }
-                }
+                MoveOnOccupiedPosition(actorAtTargetPosition, targetPosition);
             }
 
             if (this is Player)
             {
                 CameraController.Singleton.Position = this.Position;
+            }
+        }
+
+        private void MoveOnEmptyPosition((int x, int y) targetPosition)
+        {
+            Item item = ActorManager.Singleton.GetActorAt<Item>(Position);
+
+            if (item != null)
+            {
+                item.MakeVisible();
+            }
+
+            Position = targetPosition;
+        }
+
+        private void MoveOnOccupiedPosition(Actor actor, (int x, int y) targetPosition)
+        {
+            if (actor.OnCollision(this))
+            {
+                // Allowed to move
+                if (actor.GetType().IsSubclassOf(typeof(Item)))
+                {
+                    ((Item)actor).Hide();
+                }
+                else if (actor.GetType() == typeof(Portal))
+                {
+                    if (MapLoader.currentLevel == 3)
+                    {
+                        Utilities.DisplayEventScreen(false);
+                    }
+                    else
+                    {
+                        GoNextLevel();
+                    }
+                }
+                Position = targetPosition;
+            }
+            else
+            {
+                CanGoMessage();
+            }
+        }
+
+        private void GoNextLevel()
+        {
+            ActorManager.Singleton.player = Instantiate((Player)this);
+            ((Player)this).UseKey();
+            ActorManager.Singleton.player.SetFields(((Player)this).currentSpriteId,
+                ((Player)this).Health, ((Player)this).Attack,
+                ((Player)this).GetEquipmentAndInventory().Item1,
+                ((Player)this).GetEquipmentAndInventory().Item2);
+
+            MapLoader.currentLevel += 1;
+            ActorManager.Singleton.DestroyAllActors();
+            MapLoader.LoadMap(MapLoader.currentLevel);
+        }
+
+
+        private void CanGoMessage()
+        {
+            if (this is Player)
+            {
+                UserInterface.Singleton.SetText("Well, it seems I can't go there!",
+                UserInterface.TextPosition.BottomCenter);
             }
         }
 
@@ -121,22 +141,12 @@ namespace DungeonCrawl.Actors
             return true;
         }
 
-        public virtual bool OnLeave(Actor anotherActor)
-        {
-            return true;
-        }
-
         /// <summary>
         ///     Invoked every animation frame, can be used for movement, character logic, etc
         /// </summary>
         /// <param name="deltaTime">Time (in seconds) since the last animation frame</param>
         protected virtual void OnUpdate(float deltaTime)
         {
-        }
-
-        public (int, int) GetActorPosition(Actor actor)
-        {
-            return actor.Position;
         }
 
         /// <summary>

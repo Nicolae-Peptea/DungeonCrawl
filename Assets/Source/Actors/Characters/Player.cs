@@ -42,14 +42,35 @@ namespace DungeonCrawl.Actors.Characters
 
         public bool HasKey()
         {
+            return _inventory.GetInventory().Any(item => item is Key);
+        }
+
+        public void SetFields(int spriteId, int health, int attack,
+             List<Item> equipment, List<Item> itemsList)
+        {
+            SetSprite(spriteId);
+            Health = health;
+            Attack = attack;
+            _equipment = equipment;
+            _inventory.SetInventory(itemsList);
+        }
+
+        public void UseKey()
+        {
             foreach (Item item in _inventory.GetInventory())
             {
                 if (item is Key)
                 {
-                    return true;
+                    _inventory.RemoveItem(item);
                 }
             }
-            return false;
+        }
+
+        public (List<Item>, List<Item>) GetEquipmentAndInventory()
+        {
+            List<Item> clonedequipment = new List<Item>(_equipment);
+            List<Item> clonedinventory = new List<Item>(_inventory.GetInventory());
+            return (clonedequipment, clonedinventory);
         }
 
         protected override void OnDeath()
@@ -163,7 +184,7 @@ namespace DungeonCrawl.Actors.Characters
             {
                 Debug.Log("Already equpped");
             }
-           
+
         }
 
         private void AlterAbility(Item item, bool Decrease)
@@ -182,34 +203,6 @@ namespace DungeonCrawl.Actors.Characters
             }
         }
 
-        public void SetFields(int spriteId, int health, int attack, 
-            List<Item> equipment, List<Item> itemsList)
-        {
-            SetSprite(spriteId);
-            Health = health;
-            Attack = attack;
-            _equipment = equipment;
-            _inventory.SetInventory(itemsList);
-        }
-
-        public void UseKey()
-        {
-            foreach( Item item in _inventory.GetInventory())
-            {
-                if (item is Key)
-                {
-                    _inventory.RemoveItem(item);
-                }
-            }
-        }
-
-        public (List<Item>, List<Item>) GetEquipmentAndInventory()
-        {
-            List<Item> clonedequipment = new List<Item>(_equipment);
-            List<Item> clonedinventory = new List<Item>(_inventory.GetInventory());
-            return (clonedequipment, clonedinventory);
-        }
-
         private void DropItem(Item item)
         {
             if (item is Sword)
@@ -221,7 +214,10 @@ namespace DungeonCrawl.Actors.Characters
             {
                 ActorManager.Singleton.Spawn<Axe>(Position, item.name);
             }
-          
+
+            Item itemAtPosition = ActorManager.Singleton.GetActorAt<Item>(Position);
+            itemAtPosition.Hide();
+
         }
 
         private void ChangeSkin()
