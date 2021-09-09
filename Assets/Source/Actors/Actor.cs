@@ -69,6 +69,19 @@ namespace DungeonCrawl.Actors
                     {
                         ((Item)actorAtTargetPosition).Hide();
                     }
+                    else if (actorAtTargetPosition.GetType() == typeof(Portal))
+                    {
+                        if (MapLoader.currentLevel == 3)
+                        {
+                            Utilities.DisplayDeadScreen();
+                        }
+                        else
+                        {
+                            MapLoader.currentLevel += 1;
+                            ActorManager.Singleton.DestroyAllActors();
+                            MapLoader.LoadMap(MapLoader.currentLevel);
+                        }
+                    }
 
                     Position = targetPosition;
 

@@ -24,6 +24,7 @@ public class Portal : Actor
                 return true;
             }
         }
+
         return false;
     }
 
