@@ -5,5 +5,6 @@
         ATTACK,
         DEFENSE,
         GO_NEXT_LEVEL,
+        HEALTH,
     }
 }
