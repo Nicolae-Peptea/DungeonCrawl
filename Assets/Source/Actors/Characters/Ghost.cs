@@ -23,6 +23,7 @@ namespace DungeonCrawl.Actors.Characters
             if (anotherActor is Player player)
             {
                 ApplyDamage(player.Attack);
+                player.OnCollision(this);
                 return false;
             }
             return true;
