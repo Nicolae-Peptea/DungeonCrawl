@@ -18,8 +18,6 @@ namespace DungeonCrawl.Core
         /// </summary>
         public static ActorManager Singleton { get; private set; }
 
-        public Player player { get; set; }
-
         private SpriteAtlas _spriteAtlas;
         private HashSet<Actor> _allActors;
 
@@ -125,13 +123,18 @@ namespace DungeonCrawl.Core
             go.AddComponent<SpriteRenderer>();
 
             var component = go.AddComponent<T>();
-            if (component.DefaultName == "Player" && this.player != null)
-            {
-                UpdatePlayer(component);
-            }
 
             go.name = actorName ?? component.DefaultName;
             component.Position = (x, y);
+
+            _allActors.Add(component);
+
+            return component;
+        }
+        public Player SpawnPlayer((int x, int y) position, Player player = null)
+        {
+            var component = player;
+            component.Position = position;
 
             _allActors.Add(component);
 

@@ -18,7 +18,7 @@ namespace DungeonCrawl.Core
         ///     Constructs map from txt file and spawns actors at appropriate positions
         /// </summary>
         /// <param name="id"></param>
-        public static void LoadMap(int id)
+        public static void LoadMap(int id, Player player = null)
         {
             var lines = Regex.Split(Resources.Load<TextAsset>($"map_{id}").text, "\r\n|\r|\n");
 
@@ -35,13 +35,34 @@ namespace DungeonCrawl.Core
                 {
                     var character = line[x];
 
-                    SpawnActor(character, (x, -y));
+                    if (player != null)
+                    {
+                        if (character == 'p')
+                        {
+                            SpawnPlayer(character, (x, -y), player);
+                        }
+                        else
+                        {
+                            SpawnActor(character, (x, -y));
+                        }
+                    }
+                    else
+                    {
+                        SpawnActor(character, (x, -y));
+
+                    }
                 }
             }
 
             // Set default camera size and position
-            CameraController.Singleton.Size = 10;
+            CameraController.Singleton.Size = 7;
             CameraController.Singleton.Position = (width / 2, -height / 2);
+        }
+
+        private static void SpawnPlayer(char c, (int x, int y) position, Player player = null)
+        {
+            ActorManager.Singleton.SpawnPlayer(position, player);
+            ActorManager.Singleton.Spawn<Floor>(position);
         }
 
         private static void SpawnActor(char c, (int x, int y) position)

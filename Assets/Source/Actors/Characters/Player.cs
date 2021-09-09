@@ -55,6 +55,19 @@ namespace DungeonCrawl.Actors.Characters
             _inventory.SetInventory(itemsList);
         }
 
+        public Player Copy()
+        {
+            var go = new GameObject();
+            go.AddComponent<SpriteRenderer>();
+            var component = go.AddComponent<Player>();
+            component.SetSprite(currentSpriteId);
+            component.Health = Health;
+            component.Attack = Attack;
+            component._equipment = _equipment;
+            component._inventory.SetInventory(_inventory.GetInventory());
+            return component;
+        }
+
         public void UseKey()
         {
             foreach (Item item in _inventory.GetInventory())

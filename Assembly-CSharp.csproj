@@ -57,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Source\Actors\Static\Wall.cs" />
+    <Compile Include="Assets\Source\Actors\Items\HealthPotion.cs" />
     <Compile Include="Assets\Source\Actors\Items\Key.cs" />
     <Compile Include="Assets\Source\Actors\Items\Sword.cs" />
     <Compile Include="Assets\Source\Actors\Static\Floor.cs" />
@@ -68,6 +69,7 @@
     <Compile Include="Assets\Source\Actors\Actor.cs" />
     <Compile Include="Assets\Source\Actors\Characters\Player.cs" />
     <Compile Include="Assets\Source\Actors\Static\Skull.cs" />
+    <Compile Include="Assets\Source\Actors\Items\Axe.cs" />
     <Compile Include="Assets\Source\Actors\Characters\Character.cs" />
     <Compile Include="Assets\Source\Actors\Characters\Skeleton.cs" />
     <Compile Include="Assets\Source\Core\MapLoader.cs" />
@@ -77,8 +79,6 @@
     <Compile Include="Assets\Source\Inventory.cs" />
     <Compile Include="Assets\Source\Core\GameManager.cs" />
     <Compile Include="Assets\Source\Core\ActorManager.cs" />
-    <Compile Include="Assets\Source\Actors\Items\HealthPotion.cs" />
-    <Compile Include="Assets\Source\Actors\Items\Axe.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
