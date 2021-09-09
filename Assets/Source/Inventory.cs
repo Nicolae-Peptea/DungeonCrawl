@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 
 public class Inventory : MonoBehaviour
 {
@@ -61,5 +62,15 @@ public class Inventory : MonoBehaviour
         }
 
         IsInventoryVisible = !IsInventoryVisible;
+    }
+
+    public void RemoveItem(Item item)
+    {
+        _inventory.Remove(item);
+    }
+
+    public Item SelectItemByType(ItemType itemType)
+    {
+       return _inventory.FirstOrDefault(item => item.Type == itemType);
     }
 }

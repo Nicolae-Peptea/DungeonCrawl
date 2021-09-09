@@ -6,6 +6,7 @@ using Assets.Source.Core;
 using System;
 using UnityEngine.UI;
 
+
 namespace DungeonCrawl.Actors.Characters
 {
     public class Player : Character
@@ -67,7 +68,6 @@ namespace DungeonCrawl.Actors.Characters
 
         protected override void OnUpdate(float deltaTime)
         {
-            Debug.Log("x: " + Position.x + ", y: " + Position.y);
             DisplayStatus();
 
             if (Input.GetKeyDown(KeyCode.W))
@@ -108,6 +108,11 @@ namespace DungeonCrawl.Actors.Characters
             {
                 _inventory.DisplayInventory();
             }
+
+            if (Input.GetKeyDown(KeyCode.H))
+            {
+                ConsumeItem(KeyCode.H);
+            }
         }
 
         public void DisplayStatus()
@@ -143,7 +148,7 @@ namespace DungeonCrawl.Actors.Characters
             var actorAtTargetPosition = ActorManager.Singleton.GetActorAt<Item>(Position);
             if (actorAtTargetPosition != null)
             {
-                EnhanceAbility(actorAtTargetPosition);
+                //EnhanceAbility(actorAtTargetPosition);
                 _inventory.AddItem(actorAtTargetPosition.Clone());
                 ActorManager.Singleton.DestroyActor(actorAtTargetPosition);
             }
@@ -164,6 +169,21 @@ namespace DungeonCrawl.Actors.Characters
             {
                 Health += item.Value;
             }
+        }
+
+        private void ConsumeItem(KeyCode key)
+        {
+            switch (key)
+            {
+                case KeyCode.H:
+                    Item item = _inventory.SelectItemByType(ItemType.HEALTH);
+                    EnhanceAbility(item);
+                    _inventory.RemoveItem(item);
+                    break;
+                default:
+                    break;
+            }
+
         }
     }
 }
