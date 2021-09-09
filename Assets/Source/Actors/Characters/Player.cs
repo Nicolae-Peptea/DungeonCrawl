@@ -4,6 +4,7 @@ using DungeonCrawl.Actors.Items;
 using DungeonCrawl.Core;
 using Assets.Source.Core;
 using System;
+using System.Linq;
 using UnityEngine.UI;
 
 
@@ -20,6 +21,8 @@ namespace DungeonCrawl.Actors.Characters
         public override int Attack { get; protected set; } = 5;
 
         private Inventory _inventory = new Inventory();
+
+        private List<Item> _equipment = new List<Item>();
 
         private void Start()
         {
@@ -49,7 +52,7 @@ namespace DungeonCrawl.Actors.Characters
 
         public bool HasAtLeastOneSword()
         {
-            foreach (Item item in _inventory.GetInventory())
+            foreach (Item item in _equipment)
             {
                 if (item is Sword)
                 {
@@ -57,6 +60,34 @@ namespace DungeonCrawl.Actors.Characters
                 }
             }
             return false;
+        }
+
+        public void DisplayStatus()
+        {
+            GameObject.Find("HPNumber").GetComponent<Text>().text = "" + Health;
+            GameObject.Find("AttackNumber").GetComponent<Text>().text = "" + Attack;
+            GameObject.Find("DefenseNumber").GetComponent<Text>().text = "" + Attack;
+
+            foreach (var gameObject in GameObject.FindGameObjectsWithTag("status"))
+            {
+                gameObject.transform.localScale = new Vector3(1, 1, 1);
+            }
+        }
+
+        public void HideStatus()
+        {
+            foreach (var gameObject in GameObject.FindGameObjectsWithTag("status"))
+            {
+                gameObject.transform.localScale = new Vector3(0, 0, 0);
+            }
+        }
+
+        public void DisplayDeadScreen()
+        {
+            foreach (var gameObject in GameObject.FindGameObjectsWithTag("deadScreen"))
+            {
+                gameObject.transform.localScale = new Vector3(1, 1, 1);
+            }
         }
 
         protected override void OnDeath()
@@ -111,35 +142,12 @@ namespace DungeonCrawl.Actors.Characters
 
             if (Input.GetKeyDown(KeyCode.H))
             {
-                ConsumeItem(KeyCode.H);
+                TryToConsumeItem(ItemType.HEALTH);
             }
-        }
 
-        public void DisplayStatus()
-        {
-            GameObject.Find("HPNumber").GetComponent<Text>().text = "" + Health;
-            GameObject.Find("AttackNumber").GetComponent<Text>().text = "" + Attack;
-            GameObject.Find("DefenseNumber").GetComponent<Text>().text = "" + Attack;
-
-            foreach (var gameObject in GameObject.FindGameObjectsWithTag("status"))
+            if (Input.GetKeyDown(KeyCode.F))
             {
-                gameObject.transform.localScale = new Vector3(1, 1, 1);
-            }
-        }
-
-        public void HideStatus()
-        {
-            foreach (var gameObject in GameObject.FindGameObjectsWithTag("status"))
-            {
-                gameObject.transform.localScale = new Vector3(0, 0, 0);
-            }
-        }
-
-        public void DisplayDeadScreen()
-        {
-            foreach (var gameObject in GameObject.FindGameObjectsWithTag("deadScreen"))
-            {
-                gameObject.transform.localScale = new Vector3(1, 1, 1);
+                EquipItem(ItemType.ATTACK);
             }
         }
 
@@ -148,40 +156,9 @@ namespace DungeonCrawl.Actors.Characters
             var actorAtTargetPosition = ActorManager.Singleton.GetActorAt<Item>(Position);
             if (actorAtTargetPosition != null)
             {
-                //EnhanceAbility(actorAtTargetPosition);
                 _inventory.AddItem(actorAtTargetPosition.Clone());
                 ActorManager.Singleton.DestroyActor(actorAtTargetPosition);
             }
-            if (HasAtLeastOneSword())
-            {
-                SetSprite(26);
-            }
-        }
-
-        private void EnhanceAbility(Item item)
-        {
-            if (item.Type == ItemType.ATTACK)
-            {
-                Attack += item.Value;
-            }
-
-            if (item.Type == ItemType.HEALTH)
-            {
-                Health += item.Value;
-            }
-        }
-
-        private void ConsumeItem(KeyCode key)
-        {
-            switch (key)
-            {
-                case KeyCode.H:
-                    TryToConsumeItem(ItemType.HEALTH);
-                    break;
-                default:
-                    break;
-            }
-
         }
 
         private void TryToConsumeItem(ItemType itemType)
@@ -189,14 +166,59 @@ namespace DungeonCrawl.Actors.Characters
             try
             {
                 Item item = _inventory.SelectItemByType(itemType);
-                EnhanceAbility(item);
+                AlterAbility(item, false);
                 _inventory.RemoveItem(item);
             }
             catch (NullReferenceException)
             {
                 Debug.Log("Nu ai de astea");
             }
-           
+        }
+
+        private void EquipItem(ItemType itemType)
+        {
+            Item itemFromInventory = _inventory.SelectItemByType(itemType);
+            Item itemFromInventoryCopy = itemFromInventory.Clone();
+
+            Item alreadyEquipped = _equipment.FirstOrDefault(item => item.Type == itemType);
+
+            if (alreadyEquipped == null)
+            {
+                _inventory.RemoveItem(itemFromInventory);
+            }
+            else
+            {
+                _equipment.Remove(alreadyEquipped);
+                AlterAbility(itemFromInventoryCopy, true);
+            }
+
+            _equipment.Add(itemFromInventoryCopy);
+            AlterAbility(itemFromInventoryCopy, false);
+
+            if (HasAtLeastOneSword())
+            {
+                SetSprite(26);
+            }
+            else
+            {
+                SetSprite(DefaultSpriteId);
+            }
+        }
+
+        private void AlterAbility(Item item, bool Decrease)
+        {
+            int valueToAdd = Decrease ? -item.Value : item.Value;
+
+            if (item.Type == ItemType.ATTACK)
+            {
+                Attack += valueToAdd;
+            }
+
+            if (item.Type == ItemType.HEALTH)
+            {
+                int enhancedHealth = Health + valueToAdd;
+                Health = enhancedHealth >= 100 ? 100 : enhancedHealth;
+            }
         }
     }
 }
