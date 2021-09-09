@@ -176,14 +176,27 @@ namespace DungeonCrawl.Actors.Characters
             switch (key)
             {
                 case KeyCode.H:
-                    Item item = _inventory.SelectItemByType(ItemType.HEALTH);
-                    EnhanceAbility(item);
-                    _inventory.RemoveItem(item);
+                    TryToConsumeItem(ItemType.HEALTH);
                     break;
                 default:
                     break;
             }
 
+        }
+
+        private void TryToConsumeItem(ItemType itemType)
+        {
+            try
+            {
+                Item item = _inventory.SelectItemByType(itemType);
+                EnhanceAbility(item);
+                _inventory.RemoveItem(item);
+            }
+            catch (NullReferenceException)
+            {
+                Debug.Log("Nu ai de astea");
+            }
+           
         }
     }
 }

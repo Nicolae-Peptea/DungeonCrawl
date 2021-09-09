@@ -71,6 +71,6 @@ public class Inventory : MonoBehaviour
 
     public Item SelectItemByType(ItemType itemType)
     {
-       return _inventory.FirstOrDefault(item => item.Type == itemType);
+        return _inventory.FirstOrDefault(item => item.Type == itemType); 
     }
 }
