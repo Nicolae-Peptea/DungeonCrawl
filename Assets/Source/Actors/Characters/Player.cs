@@ -54,7 +54,7 @@ namespace DungeonCrawl.Actors.Characters
         {
             Debug.Log("Oh no, I'm dead!");
             HideStatus();
-            DisplayDeadScreen();
+            Utilities.DisplayDeadScreen();
         }
 
         protected override void OnUpdate(float deltaTime)
