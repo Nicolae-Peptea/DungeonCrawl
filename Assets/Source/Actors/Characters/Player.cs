@@ -34,6 +34,30 @@ namespace DungeonCrawl.Actors.Characters
             return false;
         }
 
+        public bool HasKey()
+        {
+            foreach (Item item in _inventory.GetInventory())
+            {
+                if (item is Key)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public bool HasAtLeastOneSword()
+        {
+            foreach (Item item in _inventory.GetInventory())
+            {
+                if (item is Sword)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         protected override void OnDeath()
         {
             Debug.Log("Oh no, I'm dead!");
@@ -86,53 +110,6 @@ namespace DungeonCrawl.Actors.Characters
             }
         }
 
-        private void PickItems()
-        {
-            var actorAtTargetPosition = ActorManager.Singleton.GetActorAt<Item>(Position);
-            if (actorAtTargetPosition != null)
-            {
-                EnhanceAbility(actorAtTargetPosition);
-                _inventory.AddItem(actorAtTargetPosition.Clone());
-                ActorManager.Singleton.DestroyActor(actorAtTargetPosition);
-            }
-            if (HasAtLeastOneSword())
-            {
-                SetSprite(26);
-            }
-        }
-
-        public bool HasKey()
-        {
-            foreach (Item item in _inventory.GetInventory())
-            {
-                if (item is Key)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        public bool HasAtLeastOneSword()
-        {
-            foreach (Item item in _inventory.GetInventory())
-            {
-                if (item is Sword)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        private void EnhanceAbility(Item item)
-        {
-            if (item.Type == ItemType.ATTACK)
-            {
-                Attack += item.Value;
-            }
-        }
-
         public void DisplayStatus()
         {
             GameObject.Find("HPNumber").GetComponent<Text>().text = "" + Health;
@@ -160,5 +137,35 @@ namespace DungeonCrawl.Actors.Characters
                 gameObject.transform.localScale = new Vector3(1, 1, 1);
             }
         }
+
+        private void PickItems()
+        {
+            var actorAtTargetPosition = ActorManager.Singleton.GetActorAt<Item>(Position);
+            if (actorAtTargetPosition != null)
+            {
+                EnhanceAbility(actorAtTargetPosition);
+                _inventory.AddItem(actorAtTargetPosition.Clone());
+                ActorManager.Singleton.DestroyActor(actorAtTargetPosition);
+            }
+            if (HasAtLeastOneSword())
+            {
+                SetSprite(26);
+            }
+        }
+
+        private void EnhanceAbility(Item item)
+        {
+            if (item.Type == ItemType.ATTACK)
+            {
+                Attack += item.Value;
+            }
+
+            if (item.Type == ItemType.HEALTH)
+            {
+                Health += item.Value;
+            }
+        }
+
+       
     }
 }
