@@ -165,7 +165,5 @@ namespace DungeonCrawl.Actors.Characters
                 Health += item.Value;
             }
         }
-
-       
     }
 }
