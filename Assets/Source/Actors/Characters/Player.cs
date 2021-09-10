@@ -119,6 +119,7 @@ namespace DungeonCrawl.Actors.Characters
             if (Input.GetKeyDown(KeyCode.F))
             {
                 EquipItem(ItemType.ATTACK);
+                _inventory.UpdateInventoryNumbers();
             }
         }
 
@@ -130,7 +131,7 @@ namespace DungeonCrawl.Actors.Characters
             {
                 if (MapLoader.currentLevel == lastLevel)
                 {
-                    SceneManager.LoadScene("End");
+                    SceneManager.LoadScene("Win");
                 }
                 else
                 {
