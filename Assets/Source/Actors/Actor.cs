@@ -2,7 +2,6 @@
 using DungeonCrawl.Actors.Items;
 using DungeonCrawl.Core;
 using UnityEngine;
-using System;
 using DungeonCrawl.Actors.Characters;
 
 namespace DungeonCrawl.Actors
@@ -88,6 +87,11 @@ namespace DungeonCrawl.Actors
                 }
 
                 Position = targetPosition;
+
+                if (actor.GetType() == typeof(Portal) && this is Player player)
+                {
+                    player.AttemptLevelTransition();
+                }
             }
             else
             {

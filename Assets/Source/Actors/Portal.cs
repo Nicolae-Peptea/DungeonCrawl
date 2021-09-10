@@ -1,8 +1,5 @@
 using DungeonCrawl.Actors;
 using DungeonCrawl.Actors.Characters;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 public class Portal : Actor
 {
@@ -30,8 +27,9 @@ public class Portal : Actor
 
     public void Unlock()
     {
+        int unlockedPortalId = 539;
         Unlocked = true;
-        SetSprite(539);
+        SetSprite(unlockedPortalId);
     }
 
     public bool IsPlayerUnlocking(Actor actor)

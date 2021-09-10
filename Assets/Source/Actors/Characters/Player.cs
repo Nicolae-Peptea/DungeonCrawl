@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using DungeonCrawl.Actors.Items;
 using DungeonCrawl.Core;
-using Assets.Source.Core;
 using System;
 using System.Linq;
 using UnityEngine.UI;
@@ -60,13 +59,9 @@ namespace DungeonCrawl.Actors.Characters
 
         public void UseKey()
         {
-            foreach (Item item in _inventory.GetInventory())
-            {
-                if (item is Key)
-                {
-                    _inventory.RemoveItem(item);
-                }
-            }
+            var itemToRemove = _inventory.GetInventory().Single(item => item is Key);
+            _inventory.RemoveItem(itemToRemove);
+            _inventory.UpdateInventoryNumbers();
         }
 
         protected override void OnDeath()
@@ -125,10 +120,15 @@ namespace DungeonCrawl.Actors.Characters
             {
                 EquipItem(ItemType.ATTACK);
             }
+        }
+
+        public void AttemptLevelTransition()
+        {
+            int lastLevel = 3;
 
             if (AmIAtPortal())
             {
-                if (MapLoader.currentLevel == 3)
+                if (MapLoader.currentLevel == lastLevel)
                 {
                     Utilities.DisplayEventScreen(false);
                 }
@@ -138,7 +138,6 @@ namespace DungeonCrawl.Actors.Characters
                 }
             }
         }
-
         private void PickItems()
         {
             var actorAtTargetPosition = ActorManager.Singleton.GetActorAt<Item>(Position);
@@ -187,7 +186,7 @@ namespace DungeonCrawl.Actors.Characters
             }
             catch (NullReferenceException)
             {
-                Debug.Log("Already equpped");
+                Debug.Log("You don't have anything to equip of this kind");
             }
 
         }
@@ -227,25 +226,29 @@ namespace DungeonCrawl.Actors.Characters
 
         private void ChangeSkin()
         {
+            int skinWithSword = 26;
+            int skinWithAxe = 78;
+
             if (_equipment.Any(item => item is Sword))
             {
-                SetSprite(26);
-                currentSpriteId = 26;
+                SetSprite(skinWithSword);
+                currentSpriteId = skinWithSword;
             }
             if (_equipment.Any(item => item is Axe))
             {
-                SetSprite(78);
-                currentSpriteId = 78;
+                SetSprite(skinWithAxe);
+                currentSpriteId = skinWithAxe;
             }
         }
 
         private void DisplayStatus()
         {
+            int visible = 1;
             UpdateStatus();
 
             foreach (var gameObject in GameObject.FindGameObjectsWithTag("status"))
             {
-                gameObject.transform.localScale = new Vector3(1, 1, 1);
+                gameObject.transform.localScale = new Vector3(visible, visible, visible);
             }
         }
 
@@ -258,24 +261,22 @@ namespace DungeonCrawl.Actors.Characters
 
         private void HideStatus()
         {
+            int invisible = 0;
             foreach (var gameObject in GameObject.FindGameObjectsWithTag("status"))
             {
-                gameObject.transform.localScale = new Vector3(0, 0, 0);
+                gameObject.transform.localScale = new Vector3(invisible, invisible, invisible);
             }
         }
 
         private bool AmIAtPortal()
         {
             Portal item = ActorManager.Singleton.GetActorAt<Portal>(Position);
-            if (item != null)
-            {
-                return true;
-            }
-            return false;
+            return item != null;
         }
+
         private void GoNextLevel()
         {
-            ((Player)this).UseKey();
+            this.UseKey();
             MapLoader.currentLevel += 1;
             ActorManager.Singleton.DestroyAllActors();
             MapLoader.LoadMap(MapLoader.currentLevel, ((Player)this).Copy());
