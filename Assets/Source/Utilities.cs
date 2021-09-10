@@ -1,5 +1,4 @@
 ﻿using System;
-using UnityEngine;
 
 namespace DungeonCrawl
 {
@@ -39,7 +38,7 @@ namespace DungeonCrawl
 
         public static Direction GetRandomDirectionFromCadran(int cadran)
         {
-            System.Random rand = new System.Random();
+            Random rand = new System.Random();
             Enum[] enumValues = cadran switch
             {
                 1 => new Enum[] { Direction.Down, Direction.Right },
@@ -49,16 +48,6 @@ namespace DungeonCrawl
                 _ => (Enum[])Enum.GetValues(typeof(Direction)),
             };
             return (Direction)enumValues.GetValue(rand.Next(enumValues.Length));
-        }
-
-        public static void DisplayEventScreen(bool dead)
-        {
-            string screen = dead ? "deadScreen" : "winScreen";
-
-            foreach (var gameObject in GameObject.FindGameObjectsWithTag(screen))
-            {
-                gameObject.transform.localScale = new Vector3(1, 1, 1);
-            }
         }
     }
 }

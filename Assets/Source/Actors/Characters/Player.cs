@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using DungeonCrawl.Actors.Items;
 using DungeonCrawl.Core;
-using Assets.Source.Core;
 using System;
 using System.Linq;
 using UnityEngine.UI;
-
+using UnityEngine.SceneManagement;
 
 namespace DungeonCrawl.Actors.Characters
 {
@@ -73,7 +72,7 @@ namespace DungeonCrawl.Actors.Characters
         {
             Debug.Log("Oh no, I'm dead!");
             HideStatus();
-            Utilities.DisplayEventScreen(true);
+            SceneManager.LoadScene("End");
         }
 
         protected override void OnUpdate(float deltaTime)
@@ -130,7 +129,7 @@ namespace DungeonCrawl.Actors.Characters
             {
                 if (MapLoader.currentLevel == 3)
                 {
-                    Utilities.DisplayEventScreen(false);
+                    SceneManager.LoadScene("End");
                 }
                 else
                 {
@@ -182,7 +181,7 @@ namespace DungeonCrawl.Actors.Characters
                 _equipment.Add(itemFromInventoryCopy);
                 AlterAbility(itemFromInventoryCopy, false);
                 UpdateStatus();
-
+                UpdateEquipment(itemFromInventoryCopy);
                 ChangeSkin();
             }
             catch (NullReferenceException)
@@ -254,6 +253,22 @@ namespace DungeonCrawl.Actors.Characters
             GameObject.Find("HPNumber").GetComponent<Text>().text = "" + Health;
             GameObject.Find("AttackNumber").GetComponent<Text>().text = "" + Attack;
             //GameObject.Find("DefenseNumber").GetComponent<Text>().text = "" + Attack;
+        }
+
+        private void UpdateEquipment(Item item)
+        {
+            GameObject.Find("SwordName").transform.localScale = new Vector3(0, 0, 0);
+
+            if (item is Sword)
+            {
+                GameObject.Find("EquipmentSwordIcon").transform.localScale = new Vector3(1, 1, 1);
+                GameObject.Find("EquipmentAxeIcon").transform.localScale = new Vector3(0, 0, 0);
+            }
+            else if (item is Axe)
+            {
+                GameObject.Find("EquipmentSwordIcon").transform.localScale = new Vector3(0, 0, 0);
+                GameObject.Find("EquipmentAxeIcon").transform.localScale = new Vector3(1, 1, 1);
+            }
         }
 
         private void HideStatus()
