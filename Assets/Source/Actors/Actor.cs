@@ -86,17 +86,7 @@ namespace DungeonCrawl.Actors
                 {
                     ((Item)actor).Hide();
                 }
-                else if (actor.GetType() == typeof(Portal))
-                {
-                    if (MapLoader.currentLevel == 3)
-                    {
-                        Utilities.DisplayEventScreen(false);
-                    }
-                    else
-                    {
-                        GoNextLevel();
-                    }
-                }
+
                 Position = targetPosition;
             }
             else
@@ -104,15 +94,6 @@ namespace DungeonCrawl.Actors
                 CanGoMessage();
             }
         }
-
-        private void GoNextLevel()
-        {
-            ((Player)this).UseKey();
-            MapLoader.currentLevel += 1;
-            ActorManager.Singleton.DestroyAllActors();
-            MapLoader.LoadMap(MapLoader.currentLevel, ((Player)this).Copy());
-        }
-
 
         private void CanGoMessage()
         {

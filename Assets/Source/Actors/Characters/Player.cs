@@ -45,16 +45,6 @@ namespace DungeonCrawl.Actors.Characters
             return _inventory.GetInventory().Any(item => item is Key);
         }
 
-        public void SetFields(int spriteId, int health, int attack,
-             List<Item> equipment, List<Item> itemsList)
-        {
-            SetSprite(spriteId);
-            Health = health;
-            Attack = attack;
-            _equipment = equipment;
-            _inventory.SetInventory(itemsList);
-        }
-
         public Player Copy()
         {
             var go = new GameObject();
@@ -77,13 +67,6 @@ namespace DungeonCrawl.Actors.Characters
                     _inventory.RemoveItem(item);
                 }
             }
-        }
-
-        public (List<Item>, List<Item>) GetEquipmentAndInventory()
-        {
-            List<Item> clonedequipment = new List<Item>(_equipment);
-            List<Item> clonedinventory = new List<Item>(_inventory.GetInventory());
-            return (clonedequipment, clonedinventory);
         }
 
         protected override void OnDeath()
@@ -141,6 +124,18 @@ namespace DungeonCrawl.Actors.Characters
             if (Input.GetKeyDown(KeyCode.F))
             {
                 EquipItem(ItemType.ATTACK);
+            }
+
+            if (AmIAtPortal())
+            {
+                if (MapLoader.currentLevel == 3)
+                {
+                    Utilities.DisplayEventScreen(false);
+                }
+                else
+                {
+                    GoNextLevel();
+                }
             }
         }
 
@@ -258,7 +253,7 @@ namespace DungeonCrawl.Actors.Characters
         {
             GameObject.Find("HPNumber").GetComponent<Text>().text = "" + Health;
             GameObject.Find("AttackNumber").GetComponent<Text>().text = "" + Attack;
-            GameObject.Find("DefenseNumber").GetComponent<Text>().text = "" + Attack;
+            //GameObject.Find("DefenseNumber").GetComponent<Text>().text = "" + Attack;
         }
 
         private void HideStatus()
@@ -267,6 +262,23 @@ namespace DungeonCrawl.Actors.Characters
             {
                 gameObject.transform.localScale = new Vector3(0, 0, 0);
             }
+        }
+
+        private bool AmIAtPortal()
+        {
+            Portal item = ActorManager.Singleton.GetActorAt<Portal>(Position);
+            if (item != null)
+            {
+                return true;
+            }
+            return false;
+        }
+        private void GoNextLevel()
+        {
+            ((Player)this).UseKey();
+            MapLoader.currentLevel += 1;
+            ActorManager.Singleton.DestroyAllActors();
+            MapLoader.LoadMap(MapLoader.currentLevel, ((Player)this).Copy());
         }
     }
 }

@@ -77,16 +77,6 @@ namespace DungeonCrawl.Core
                 DestroyActor(actor);
         }
 
-        public void UpdatePlayer<T>(T component)
-        {
-            int spriteId = this.player.currentSpriteId;
-            int health = this.player.Health;
-            int attack = this.player.Attack;
-            List<Item> equipment = this.player.GetEquipmentAndInventory().Item1;
-            List<Item> inventory = this.player.GetEquipmentAndInventory().Item2;
-            (component as Player).SetFields(spriteId, health, attack, equipment, inventory);
-        }
-
         /// <summary>
         ///     Returns sprite with given ID
         /// </summary>
@@ -139,11 +129,6 @@ namespace DungeonCrawl.Core
             _allActors.Add(component);
 
             return component;
-        }
-
-        public Actor GetPlayer()
-        {
-            return _allActors.FirstOrDefault(actor => actor.GetType() == typeof(Player));
         }
     }
 }
