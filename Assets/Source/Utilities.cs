@@ -10,6 +10,14 @@ namespace DungeonCrawl
         Right
     }
 
+    public enum Quadrant : byte
+    {
+        FIRST,
+        SECOND,
+        THIRD,
+        FORTH,
+    }
+
     public static class Utilities
     {
         public static (int x, int y) ToVector(this Direction dir)
@@ -36,15 +44,15 @@ namespace DungeonCrawl
             return (Direction)enumValues.GetValue(rand.Next(enumValues.Length));
         }
 
-        public static Direction GetRandomDirectionFromCadran(int cadran)
+        public static Direction GetDirectionFromCadran(Quadrant cadran)
         {
             Random rand = new System.Random();
             Enum[] enumValues = cadran switch
             {
-                1 => new Enum[] { Direction.Down, Direction.Right },
-                2 => new Enum[] { Direction.Down, Direction.Left },
-                3 => new Enum[] { Direction.Up, Direction.Right },
-                4 => new Enum[] { Direction.Up, Direction.Left },
+                Quadrant.FIRST => new Enum[] { Direction.Down, Direction.Left },
+                Quadrant.SECOND => new Enum[] { Direction.Down, Direction.Right },
+                Quadrant.THIRD => new Enum[] { Direction.Up, Direction.Right },
+                Quadrant.FORTH => new Enum[] { Direction.Up, Direction.Left },
                 _ => (Enum[])Enum.GetValues(typeof(Direction)),
             };
             return (Direction)enumValues.GetValue(rand.Next(enumValues.Length));

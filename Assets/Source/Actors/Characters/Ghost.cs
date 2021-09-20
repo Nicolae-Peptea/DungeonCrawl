@@ -89,11 +89,11 @@ namespace DungeonCrawl.Actors.Characters
             {
                 if (ghostCol < playerCol)
                 {
-                    return Utilities.GetRandomDirectionFromCadran(1);
+                    return Utilities.GetDirectionFromCadran(Quadrant.SECOND);
                 }
                 else if (ghostCol > playerCol)
                 {
-                    return Utilities.GetRandomDirectionFromCadran(2);
+                    return Utilities.GetDirectionFromCadran(Quadrant.FIRST);
                 }
                 else
                 {
@@ -104,11 +104,11 @@ namespace DungeonCrawl.Actors.Characters
             {
                 if (ghostCol < playerCol)
                 {
-                    return Utilities.GetRandomDirectionFromCadran(3);
+                    return Utilities.GetDirectionFromCadran(Quadrant.THIRD);
                 }
                 else if (ghostCol > playerCol)
                 {
-                    return Utilities.GetRandomDirectionFromCadran(4);
+                    return Utilities.GetDirectionFromCadran(Quadrant.FORTH);
                 }
                 else
                 {
