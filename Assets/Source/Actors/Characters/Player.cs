@@ -6,6 +6,7 @@ using System;
 using System.Linq;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using DungeonCrawl.Save;
 
 namespace DungeonCrawl.Actors.Characters
 {
@@ -24,6 +25,8 @@ namespace DungeonCrawl.Actors.Characters
         private Inventory _inventory = new Inventory();
 
         private List<Item> _equipment = new List<Item>();
+
+        
 
         private void Start()
         {
@@ -101,8 +104,12 @@ namespace DungeonCrawl.Actors.Characters
 
             if (Input.GetKeyDown(KeyCode.E))
             {
+
+               
                 PickItems();
                 _inventory.UpdateInventoryNumbers();
+
+                Serialize.Player(this);
             }
 
             if (Input.GetKeyDown(KeyCode.I))
