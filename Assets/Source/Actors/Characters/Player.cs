@@ -26,12 +26,21 @@ namespace DungeonCrawl.Actors.Characters
 
         private List<Item> _equipment = new List<Item>();
 
-        
-
         private void Start()
         {
             CameraController.Singleton.Position = this.Position;
         }
+
+        public List<Item> GetInventory()
+        {
+            return _inventory.GetContent();
+        }
+
+        public List<Item> GetEquipment()
+        {
+            return _equipment;
+        }
+
 
         public override bool OnCollision(Actor anotherActor)
         {
@@ -44,7 +53,7 @@ namespace DungeonCrawl.Actors.Characters
 
         public bool HasKey()
         {
-            return _inventory.GetInventory().Any(item => item is Key);
+            return _inventory.GetContent().Any(item => item is Key);
         }
 
         public Player Copy()
@@ -56,13 +65,13 @@ namespace DungeonCrawl.Actors.Characters
             component.Health = Health;
             component.Attack = Attack;
             component._equipment = _equipment;
-            component._inventory.SetInventory(_inventory.GetInventory());
+            component._inventory.SetInventory(_inventory.GetContent());
             return component;
         }
 
         public void UseKey()
         {
-            var itemToRemove = _inventory.GetInventory().Single(item => item is Key);
+            var itemToRemove = _inventory.GetContent().Single(item => item is Key);
             _inventory.RemoveItem(itemToRemove);
             _inventory.UpdateInventoryNumbers();
         }
@@ -104,12 +113,8 @@ namespace DungeonCrawl.Actors.Characters
 
             if (Input.GetKeyDown(KeyCode.E))
             {
-
-               
                 PickItems();
                 _inventory.UpdateInventoryNumbers();
-
-                Serialize.Player(this);
             }
 
             if (Input.GetKeyDown(KeyCode.I))
@@ -128,6 +133,12 @@ namespace DungeonCrawl.Actors.Characters
                 EquipItem(ItemType.ATTACK);
                 _inventory.UpdateInventoryNumbers();
             }
+
+            if (Input.GetKeyDown(KeyCode.G))
+            {
+                Serialize.Player(this);
+            }
+
         }
 
         public void AttemptLevelTransition()

@@ -26,7 +26,7 @@ public class Inventory : MonoBehaviour
         _inventory = itemsList;
     }
 
-    public List<Item> GetInventory()
+    public List<Item> GetContent()
     {
         return _inventory;
     }
