@@ -20,5 +20,10 @@ namespace DungeonCrawl.Save
             
             File.WriteAllText(path, json);
         }
+
+        public static void Inventory(Inventory inventory)
+        {
+
+        }
     }
 }

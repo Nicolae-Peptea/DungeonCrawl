@@ -78,6 +78,7 @@
     <Compile Include="Assets\Source\Actors\Static\Skull.cs" />
     <Compile Include="Assets\Source\Actors\Portal.cs" />
     <Compile Include="Assets\Save\PlayerToSerialize.cs" />
+    <Compile Include="Assets\Save\InventoryToSerialize.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
