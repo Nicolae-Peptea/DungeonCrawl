@@ -17,8 +17,6 @@ namespace DungeonCrawl.Save
             PlayerToSave playerToSerialize = new PlayerToSave(player);
             string json = JsonConvert.SerializeObject(playerToSerialize);
             string path = Application.dataPath + @"/exported_saves/" + DateTime.Now.ToString("yyyy'-'MM'-'dd'T'HH'-'mm'-'ss") + ".json";
-
-
             File.WriteAllText(path, json);
         }
 

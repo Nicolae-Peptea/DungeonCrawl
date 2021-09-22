@@ -11,23 +11,28 @@ namespace DungeonCarawl.Save
     public class ItemToSerialize
     {
 
-        public string Name { get; private set; }
+        public string Name { get; set; }
 
-        public bool SomethingAbove { get; private set; }
+        public bool SomethingAbove { get; set; }
 
-        public int Type { get; private set; }
+        public int Type { get; set; }
 
-        public  int Value { get; private set; }
+        public  int Value { get; set; }
 
-        public (int x, int y) Position { get; private set; }
+        public (int x, int y) Position { get; set; }
 
         public ItemToSerialize(Item item)
         {
-            this.Name = item.GetType().Name;
+            this.Name = item.DefaultName;
             this.SomethingAbove = item.SomethingAbove;
             this.Type = (int)item.Type;
             this.Value = item.Value;
             this.Position = item.Position;
+
+        }
+
+        public ItemToSerialize()
+        {
 
         }
     }

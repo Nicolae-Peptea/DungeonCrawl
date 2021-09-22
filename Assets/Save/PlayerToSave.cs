@@ -9,19 +9,24 @@ namespace DungeonCrawl.Save
     [Serializable]
     public class PlayerToSave
     {
-        public int Health { get; private set; }
+        public int Health { get; set; }
 
-        public int Attack { get; private set; }
+        public int Attack { get; set; }
 
-        public int CurrentSpriteId { get; private set; }
+        public int CurrentSpriteId { get;  set; }
 
-        public string DefaultName { get; private set; }
+        public string DefaultName { get;  set; }
 
-        public (int x, int y) Position { get; private set; }
+        public (int x, int y) Position { get;  set; }
 
-        public List<ItemToSerialize> Inventory { get; private set; } = new List<ItemToSerialize>();
+        public List<ItemToSerialize> Inventory { get; set; } = new List<ItemToSerialize>();
 
-        public List<ItemToSerialize> Equipment { get; private set; } = new List<ItemToSerialize>();
+        public List<ItemToSerialize> Equipment { get; set; } = new List<ItemToSerialize>();
+
+        public PlayerToSave()
+        {
+
+        }
 
         public PlayerToSave (Player player)
         {
@@ -35,7 +40,7 @@ namespace DungeonCrawl.Save
             SetUpEquipment(player.GetEquipment());
 
         }
- 
+
         private void SetUpInventory(List<Item> playerGear)
         {
             foreach (var item in playerGear)
