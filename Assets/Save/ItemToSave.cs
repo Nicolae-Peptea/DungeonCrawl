@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DungeonCrawl.Actors.Items;
 
-namespace DungeonCarawl.Save
+namespace DungeonCrawl.Save
 {
     [Serializable]
-    public class ItemToSerialize
+    public class ItemToSave
     {
 
         public string Name { get; set; }
@@ -21,7 +17,7 @@ namespace DungeonCarawl.Save
 
         public (int x, int y) Position { get; set; }
 
-        public ItemToSerialize(Item item)
+        public ItemToSave(Item item)
         {
             this.Name = item.DefaultName;
             this.SomethingAbove = item.SomethingAbove;
@@ -31,9 +27,8 @@ namespace DungeonCarawl.Save
 
         }
 
-        public ItemToSerialize()
+        public ItemToSave()
         {
-
         }
     }
 }

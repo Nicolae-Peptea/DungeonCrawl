@@ -1,5 +1,4 @@
-﻿using DungeonCarawl.Save;
-using DungeonCrawl.Actors.Characters;
+﻿using DungeonCrawl.Actors.Characters;
 using DungeonCrawl.Actors.Items;
 using System;
 using System.Collections.Generic;
@@ -17,15 +16,16 @@ namespace DungeonCrawl.Save
 
         public string DefaultName { get;  set; }
 
+        public int CurrentLevel { get; set; }
+
         public (int x, int y) Position { get;  set; }
 
-        public List<ItemToSerialize> Inventory { get; set; } = new List<ItemToSerialize>();
+        public List<ItemToSave> Inventory { get; set; } = new List<ItemToSave>();
 
-        public List<ItemToSerialize> Equipment { get; set; } = new List<ItemToSerialize>();
+        public List<ItemToSave> Equipment { get; set; } = new List<ItemToSave>();
 
         public PlayerToSave()
         {
-
         }
 
         public PlayerToSave (Player player)
@@ -35,6 +35,7 @@ namespace DungeonCrawl.Save
             CurrentSpriteId = player.currentSpriteId;
             DefaultName = player.DefaultName;
             this.Position = player.Position;
+            this.CurrentLevel = player.CurrentLevel;
 
             SetUpInventory(player.GetInventory());
             SetUpEquipment(player.GetEquipment());
@@ -45,7 +46,7 @@ namespace DungeonCrawl.Save
         {
             foreach (var item in playerGear)
             {
-                ItemToSerialize serializedItem = CreateItemToSerialize(item);
+                ItemToSave serializedItem = CreateItemToSerialize(item);
                 Inventory.Add(serializedItem);
             }
         }
@@ -54,14 +55,14 @@ namespace DungeonCrawl.Save
         {
             foreach (var item in playerGear)
             {
-                ItemToSerialize serializedItem = CreateItemToSerialize(item);
+                ItemToSave serializedItem = CreateItemToSerialize(item);
                 Equipment.Add(serializedItem);
             }
         }
 
-        private ItemToSerialize CreateItemToSerialize(Item playerItem)
+        private ItemToSave CreateItemToSerialize(Item playerItem)
         {
-            return new ItemToSerialize(playerItem);
+            return new ItemToSave(playerItem);
         }
 
 

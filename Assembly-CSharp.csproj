@@ -73,12 +73,15 @@
     <Compile Include="Assets\Source\Core\MapLoader.cs" />
     <Compile Include="Assets\Source\Utilities.cs" />
     <Compile Include="Assets\Source\Actors\Items\Item.cs" />
-    <Compile Include="Assets\Save\ItemToSerialize.cs" />
+    <Compile Include="Assets\Save\ItemToSave.cs" />
     <Compile Include="Assets\Source\Core\GameManager.cs" />
     <Compile Include="Assets\Source\Actors\Items\Axe.cs" />
     <Compile Include="Assets\Source\Core\ActorManager.cs" />
     <Compile Include="Assets\Source\Actors\Static\Skull.cs" />
     <Compile Include="Assets\Source\Actors\Portal.cs" />
+    <Compile Include="Assets\Save\Deserialize.cs" />
+    <Compile Include="Assets\Save\CharacterToSave.cs" />
+    <Compile Include="Assets\Save\GameState.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

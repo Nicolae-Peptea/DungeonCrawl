@@ -7,22 +7,62 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using DungeonCrawl.Actors.Characters;
 using UnityEngine;
+using DungeonCrawl.Actors;
+using DungeonCrawl.Core;
+using DungeonCrawl.Actors.Items;
 
 namespace DungeonCrawl.Save
 {
     public static class Serialize
     {
-       public static void Player(Player player)
+       public static void GameState(Player player)
         {
+
             PlayerToSave playerToSerialize = new PlayerToSave(player);
-            string json = JsonConvert.SerializeObject(playerToSerialize);
+            List<ItemToSave> items = PrepareItemsToSerialize();
+            List<CharacterToSave> enemies = PrepareCharacterToSerialize();
+
+            GameState gameState = new GameState(playerToSerialize, items, enemies);
+            string gameStateJson = JsonConvert.SerializeObject(gameState);
+
             string path = Application.dataPath + @"/exported_saves/" + DateTime.Now.ToString("yyyy'-'MM'-'dd'T'HH'-'mm'-'ss") + ".json";
-            File.WriteAllText(path, json);
+            File.WriteAllText(path, gameStateJson);
         }
 
-        public static void Inventory(Inventory inventory)
+        public static List<ItemToSave> PrepareItemsToSerialize()
         {
+            HashSet<Actor> actors = ActorManager.Singleton.GetAllActors();
 
+            IEnumerable<Item> selectItems = actors.OfType<Item>();
+            List<ItemToSave> objectsToSerialize = new List<ItemToSave>();
+
+            foreach (var item in selectItems)
+            {
+                ItemToSave newCharacter = new ItemToSave(item);
+                objectsToSerialize.Add(newCharacter);
+            }
+
+            return objectsToSerialize;
+        }
+
+        public static List<CharacterToSave> PrepareCharacterToSerialize()
+        {
+            HashSet<Actor> actors = ActorManager.Singleton.GetAllActors();
+
+            IEnumerable<Character> selectItems = actors.OfType<Character>();
+            List<CharacterToSave> objectsToSerialize = new List<CharacterToSave>();
+
+            foreach (var item in selectItems)
+            {
+                if (item.GetType() == typeof(Player))
+                {
+                    continue;
+                }
+                CharacterToSave newCharacter = new CharacterToSave(item);
+                objectsToSerialize.Add(newCharacter);
+            }
+
+            return objectsToSerialize;
         }
     }
 }

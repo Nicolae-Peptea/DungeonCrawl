@@ -12,8 +12,6 @@ namespace DungeonCrawl.Core
     /// </summary>
     public static class MapLoader
     {
-        public static int currentLevel = 1;
-
         /// <summary>
         ///     Constructs map from txt file and spawns actors at appropriate positions
         /// </summary>
@@ -30,7 +28,7 @@ namespace DungeonCrawl.Core
             // Create actors
             for (var y = 0; y < height; y++)
             {
-                var line = lines[y + 1];
+                var line = lines[y+1];
                 for (var x = 0; x < width; x++)
                 {
                     var character = line[x];

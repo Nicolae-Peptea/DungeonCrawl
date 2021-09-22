@@ -10,6 +10,6 @@ namespace DungeonCrawl.Actors.Items
 
         public override ItemType Type => ItemType.GO_NEXT_LEVEL;
 
-        public override int Value => throw new NotImplementedException();
+        public override int Value => 0;
     }
 }
