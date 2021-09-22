@@ -5,11 +5,11 @@ namespace DungeonCrawl.Actors.Characters
 {
     public abstract class Character : Actor
     {
-        public abstract int Health { get; protected set; }
+        public abstract int Health { get; set; }
 
-        public abstract int Attack { get; protected set; }
+        public abstract int Attack { get; set; }
 
-        public bool IsAlive { get; protected set; } = true;
+        public bool IsAlive { get; set; } = true;
 
         public void ApplyDamage(int damage)
         {

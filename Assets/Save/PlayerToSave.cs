@@ -2,6 +2,7 @@
 using DungeonCrawl.Actors.Items;
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace DungeonCrawl.Save
 {
@@ -39,7 +40,6 @@ namespace DungeonCrawl.Save
 
             SetUpInventory(player.GetInventory());
             SetUpEquipment(player.GetEquipment());
-
         }
 
         private void SetUpInventory(List<Item> playerGear)
@@ -64,7 +64,6 @@ namespace DungeonCrawl.Save
         {
             return new ItemToSave(playerItem);
         }
-
 
     }
 }

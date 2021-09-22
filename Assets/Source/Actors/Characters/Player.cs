@@ -18,11 +18,11 @@ namespace DungeonCrawl.Actors.Characters
 
         public override string DefaultName => "Player";
 
-        public override int Health { get; protected set; } = 100;
+        public override int Health { get; set; } = 100;
 
-        public int CurrentLevel { get; protected set; } = 1;
+        public int CurrentLevel { get; set; } = 1;
 
-        public override int Attack { get; protected set; } = 5;
+        public override int Attack { get; set; } = 5;
 
         private Inventory _inventory = new Inventory();
 
@@ -140,6 +140,12 @@ namespace DungeonCrawl.Actors.Characters
             if (Input.GetKeyDown(KeyCode.G))
             {
                 Serialize.GameState(this);
+                //Deserialize.DeserializeGameState();
+            }
+
+            if (Input.GetKeyDown(KeyCode.H))
+            {
+                MapLoader.LoadGameState();
             }
 
         }

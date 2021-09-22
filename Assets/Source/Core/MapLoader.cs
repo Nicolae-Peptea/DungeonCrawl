@@ -1,6 +1,7 @@
 ﻿using DungeonCrawl.Actors.Characters;
 using DungeonCrawl.Actors.Items;
 using DungeonCrawl.Actors.Static;
+using DungeonCrawl.Save;
 using System;
 using System.Text.RegularExpressions;
 using UnityEngine;
@@ -117,6 +118,15 @@ namespace DungeonCrawl.Core
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+        }
+
+        public static void LoadGameState()
+        {
+            var gameState = Deserialize.DeserializeGameState();
+            int mapLevel = gameState.player.CurrentLevel;
+            ActorManager.Singleton.DestroyAllActors();
+            LoadMap(mapLevel);
+            ActorManager.Singleton.DestroyItemAndCharacters();
         }
     }
 }

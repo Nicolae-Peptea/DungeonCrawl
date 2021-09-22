@@ -29,7 +29,7 @@ namespace DungeonCrawl.Save
             File.WriteAllText(path, gameStateJson);
         }
 
-        public static List<ItemToSave> PrepareItemsToSerialize()
+        private static List<ItemToSave> PrepareItemsToSerialize()
         {
             HashSet<Actor> actors = ActorManager.Singleton.GetAllActors();
 
@@ -45,7 +45,7 @@ namespace DungeonCrawl.Save
             return objectsToSerialize;
         }
 
-        public static List<CharacterToSave> PrepareCharacterToSerialize()
+        private static List<CharacterToSave> PrepareCharacterToSerialize()
         {
             HashSet<Actor> actors = ActorManager.Singleton.GetAllActors();
 
@@ -54,7 +54,7 @@ namespace DungeonCrawl.Save
 
             foreach (var item in selectItems)
             {
-                if (item.GetType() == typeof(Player))
+                if (item is Player)
                 {
                     continue;
                 }

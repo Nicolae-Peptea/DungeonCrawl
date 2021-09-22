@@ -82,6 +82,7 @@
     <Compile Include="Assets\Save\Deserialize.cs" />
     <Compile Include="Assets\Save\CharacterToSave.cs" />
     <Compile Include="Assets\Save\GameState.cs" />
+    <Compile Include="Assets\Load\LoadGame.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
