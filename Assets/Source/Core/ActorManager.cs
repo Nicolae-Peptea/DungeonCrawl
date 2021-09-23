@@ -172,6 +172,19 @@ namespace DungeonCrawl.Core
             List <Item> convertedItems = Utilities.GetGearFromLoadedGame(loadedItems);
 
             convertedItems.ForEach(item => _allActors.Add(item));
+            foreach (var item in convertedItems)
+            {
+                _allActors.Add(item);
+                item.Show();
+            }
+        }
+
+        public void SpawnEnemiesFromLoadedGame(GameState gameState)
+        {
+            List<CharacterToSave> loadedCharacters = gameState.enemies;
+            List<Character> convertedCharacters = Utilities.GetCharactersFromLoaded(loadedCharacters);
+
+            convertedCharacters.ForEach(item => _allActors.Add(item));
         }
     }
 }

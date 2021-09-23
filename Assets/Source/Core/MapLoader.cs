@@ -129,6 +129,7 @@ namespace DungeonCrawl.Core
             ActorManager.Singleton.DestroyItemAndCharacters();
             ActorManager.Singleton.SpawnPlayerFromLoadedGame(gameState);
             ActorManager.Singleton.SpawnItemsFromLoadedGame(gameState);
+            ActorManager.Singleton.SpawnEnemiesFromLoadedGame(gameState);
         }
     }
 }

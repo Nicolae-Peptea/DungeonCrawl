@@ -15,15 +15,27 @@
 
         public void Hide()
         {
-            SetSprite(1);
             SomethingAbove = true;
         }
 
         public void MakeVisible()
         {
-            SetSprite(DefaultSpriteId);
             SomethingAbove = false;
         }
+
+
+        public void Show()
+        {
+            if (SomethingAbove == true)
+            {
+                SetSprite(1);
+            }
+            else
+            {
+                SetSprite(DefaultSpriteId);
+            }
+        }
+
 
         /// <summary>
         ///     All items are drawn "above" floor etc

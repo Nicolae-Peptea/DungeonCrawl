@@ -1,5 +1,7 @@
 ﻿using DungeonCrawl.Core;
 using DungeonCrawl.Save;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace DungeonCrawl.Actors.Characters
@@ -25,9 +27,9 @@ namespace DungeonCrawl.Actors.Characters
             }
         }
 
-        public virtual void SetFromLoaded(GameState gameState)
+        public void SetHealth(int health)
         {
-
+            this.Health = health;
         }
 
         protected abstract void OnDeath();
@@ -36,5 +38,10 @@ namespace DungeonCrawl.Actors.Characters
         ///     All characters are drawn "above" floor etc
         /// </summary>
         public override int Z => -2;
+
+        internal void ShowItem()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

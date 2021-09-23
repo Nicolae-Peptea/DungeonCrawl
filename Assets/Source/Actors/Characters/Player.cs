@@ -43,7 +43,7 @@ namespace DungeonCrawl.Actors.Characters
             return _equipment;
         }
 
-        public override void SetFromLoaded(GameState gameState)
+        public void SetFromLoaded(GameState gameState)
         {
             PlayerToSave loadedPlayer = gameState.player;
 

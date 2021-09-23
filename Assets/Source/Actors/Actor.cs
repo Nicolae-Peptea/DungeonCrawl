@@ -71,6 +71,7 @@ namespace DungeonCrawl.Actors
             if (item != null)
             {
                 item.MakeVisible();
+                item.Show();
             }
 
             Position = targetPosition;
@@ -84,6 +85,7 @@ namespace DungeonCrawl.Actors
                 if (actor.GetType().IsSubclassOf(typeof(Item)))
                 {
                     ((Item)actor).Hide();
+                    ((Item)actor).Show();
                 }
 
                 Position = targetPosition;

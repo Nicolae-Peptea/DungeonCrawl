@@ -1,4 +1,5 @@
-﻿using DungeonCrawl.Actors.Items;
+﻿using DungeonCrawl.Actors.Characters;
+using DungeonCrawl.Actors.Items;
 using DungeonCrawl.Save;
 using System;
 using System.Collections.Generic;
@@ -93,6 +94,41 @@ namespace DungeonCrawl
 
                 component.Position = item.Position;
                 component.SomethingAbove = item.SomethingAbove;
+
+                newGear.Add(component);
+            }
+
+            return newGear;
+        }
+
+        public static List<Character> GetCharactersFromLoaded(List<CharacterToSave> enemies)
+        {
+            var newGear = new List<Character>();
+
+            foreach (var item in enemies)
+            {
+                var go = new GameObject();
+                Character component = null;
+
+                go.AddComponent<SpriteRenderer>();
+                go.name = item.Name;
+
+                switch (item.Name)
+                {
+                    case "Orc":
+                        component = go.AddComponent<Orc>();
+                        break;
+                    case "Skeleton":
+                        component = go.AddComponent<Skeleton>();
+                        break;
+                    case "Ghost":
+                        component = go.AddComponent<Ghost>();
+                        break;
+
+                }
+
+                component.Position = item.Position;
+                component.SetHealth(item.Health);
 
                 newGear.Add(component);
             }
