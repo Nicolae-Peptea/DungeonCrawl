@@ -32,6 +32,7 @@ namespace DungeonCrawl.Actors.Characters
         private float _timeCounter = 0;
 
         private const float SECONDS_TO_WAIT_FOR_TEXT_DISAPPEARING = 5;
+        public bool AreControlsVisible { get; set; } = false;
 
         private void Start()
         {
@@ -150,15 +151,9 @@ namespace DungeonCrawl.Actors.Characters
                 _inventory.UpdateInventoryNumbers();
             }
 
-            if (Input.GetKeyDown(KeyCode.I))
+            if (Input.GetKeyDown(KeyCode.C))
             {
-                _inventory.DisplayInventory();
-            }
-
-            if (Input.GetKeyDown(KeyCode.H))
-            {
-                TryToConsumeItem(ItemType.HEALTH);
-                _inventory.UpdateInventoryNumbers();
+                DisplayControls();
             }
 
             if (Input.GetKeyDown(KeyCode.F))
@@ -167,7 +162,18 @@ namespace DungeonCrawl.Actors.Characters
                 _inventory.UpdateInventoryNumbers();
             }
 
-            if (Input.GetKeyDown(KeyCode.G))
+            if (Input.GetKeyDown(KeyCode.H))
+            {
+                TryToConsumeItem(ItemType.HEALTH);
+                _inventory.UpdateInventoryNumbers();
+            }
+
+            if (Input.GetKeyDown(KeyCode.I))
+            {
+                _inventory.DisplayInventory();
+            }
+
+            if (Input.GetKeyDown(KeyCode.F9))
             {
                 Serialize.GameState(this);
                 UserInterface.Singleton.SetText("Game State Saved Successfully!",
@@ -175,7 +181,7 @@ namespace DungeonCrawl.Actors.Characters
                 _timeCounter = 0;
             }
 
-            if (Input.GetKeyDown(KeyCode.H))
+            if (Input.GetKeyDown(KeyCode.F10))
             {
                 MapLoader.LoadGameState();
                 UserInterface.Singleton.SetText("Saved Game Loaded Successfully!",
@@ -319,6 +325,19 @@ namespace DungeonCrawl.Actors.Characters
             {
                 gameObject.transform.localScale = new Vector3(visible, visible, visible);
             }
+        }
+
+        public void DisplayControls()
+        {
+
+            foreach (var gameObject in GameObject.FindGameObjectsWithTag("controls"))
+            {
+                gameObject.transform.localScale = AreControlsVisible
+                    ? new Vector3(0, 0, 0)
+                    : new Vector3(1, 1, 1);
+            }
+
+            AreControlsVisible = !AreControlsVisible;
         }
 
         private void UpdateStatus()
