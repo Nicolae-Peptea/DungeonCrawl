@@ -36,11 +36,12 @@ namespace DungeonCrawl.Save
             CurrentSpriteId = player.currentSpriteId;
             DefaultName = player.DefaultName;
             this.Position = player.Position;
-            this.CurrentLevel = player.CurrentLevel;
+            this.CurrentLevel = player.CurrentMapLevel;
 
             SetUpInventory(player.GetInventory());
             SetUpEquipment(player.GetEquipment());
         }
+
 
         private void SetUpInventory(List<Item> playerGear)
         {

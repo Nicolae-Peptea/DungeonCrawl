@@ -3,6 +3,7 @@ using System.Linq;
 using DungeonCrawl.Actors;
 using DungeonCrawl.Actors.Characters;
 using DungeonCrawl.Actors.Items;
+using DungeonCrawl.Save;
 using UnityEngine;
 using UnityEngine.U2D;
 
@@ -105,6 +106,34 @@ namespace DungeonCrawl.Core
             return _spriteAtlas.GetSprite($"kenney_transparent_{id}");
         }
 
+        public Player SpawnPlayerFromLoadedGame(PlayerToSave loadedPlayer)
+        {
+            var positionOfLoadedPlayer = loadedPlayer.Position;
+            var mapLevelOfLoadedPlayer = loadedPlayer.CurrentLevel;
+            var inventoryOfLoadedPlayer = loadedPlayer.Inventory;
+            var equipmentOfLoadedPlayer = loadedPlayer.Equipment;
+            var healthOfLoadedPlayer = loadedPlayer.Health;
+            var attackOfLoadedPlayer = loadedPlayer.Attack;
+            var spriteId = loadedPlayer.CurrentSpriteId;
+
+            var go = new GameObject();
+            go.AddComponent<SpriteRenderer>();
+
+            var component = go.AddComponent<Player>();
+
+            go.name = component.DefaultName;
+            component.Position = (positionOfLoadedPlayer.x, positionOfLoadedPlayer.y);
+            component.Health = healthOfLoadedPlayer;
+            component.Attack = attackOfLoadedPlayer;
+            component.CurrentMapLevel = mapLevelOfLoadedPlayer;
+            component.currentSpriteId = spriteId;
+            component.SetSprite(spriteId);
+
+            _allActors.Add(component);
+
+            return component;
+        }
+
         /// <summary>
         ///     Spawns given Actor type at given position
         /// </summary>
@@ -139,6 +168,10 @@ namespace DungeonCrawl.Core
 
             return component;
         }
+
+
+
+
         public Player SpawnPlayer((int x, int y) position, Player player = null)
         {
             var component = player;

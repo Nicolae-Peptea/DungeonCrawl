@@ -20,7 +20,7 @@ namespace DungeonCrawl.Actors.Characters
 
         public override int Health { get; set; } = 100;
 
-        public int CurrentLevel { get; set; } = 1;
+        public int CurrentMapLevel { get; set; } = 1;
 
         public override int Attack { get; set; } = 5;
 
@@ -66,7 +66,7 @@ namespace DungeonCrawl.Actors.Characters
             component.SetSprite(currentSpriteId);
             component.Health = Health;
             component.Attack = Attack;
-            component.CurrentLevel = CurrentLevel;
+            component.CurrentMapLevel = CurrentMapLevel;
             component._equipment = _equipment;
             component._inventory.SetInventory(_inventory.GetContent());
             return component;
@@ -156,7 +156,7 @@ namespace DungeonCrawl.Actors.Characters
 
             if (AmIAtPortal())
             {
-                if (CurrentLevel == lastLevel)
+                if (CurrentMapLevel == lastLevel)
                 {
                     SceneManager.LoadScene("Win");
                 }
@@ -321,9 +321,9 @@ namespace DungeonCrawl.Actors.Characters
         private void GoNextLevel()
         {
             this.UseKey();
-            CurrentLevel += 1;
+            CurrentMapLevel += 1;
             ActorManager.Singleton.DestroyAllActors();
-            MapLoader.LoadMap(CurrentLevel, ((Player)this).Copy());
+            MapLoader.LoadMap(CurrentMapLevel, ((Player)this).Copy());
         }
     }
 }
