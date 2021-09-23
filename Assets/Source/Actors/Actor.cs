@@ -46,8 +46,8 @@ namespace DungeonCrawl.Actors
 
             Actor actorAtTargetPosition = ActorManager.Singleton.GetActorAt(targetPosition);
             
-            UserInterface.Singleton.SetText("",
-                        UserInterface.TextPosition.BottomCenter);
+            //UserInterface.Singleton.SetText("",
+            //            UserInterface.TextPosition.BottomCenter);
 
             if (actorAtTargetPosition == null)
             {

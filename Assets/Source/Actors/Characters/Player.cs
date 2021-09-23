@@ -29,6 +29,10 @@ namespace DungeonCrawl.Actors.Characters
 
         private List<Item> _equipment = new List<Item>();
 
+        private float _timeCounter = 0;
+
+        private const float SECONDS_TO_WAIT_FOR_TEXT_DISAPPEARING = 5;
+
         private void Start()
         {
             CameraController.Singleton.Position = this.Position;
@@ -109,8 +113,11 @@ namespace DungeonCrawl.Actors.Characters
             SceneManager.LoadScene("End");
         }
 
+
         protected override void OnUpdate(float deltaTime)
         {
+            _timeCounter += deltaTime;
+
             DisplayStatus();
 
             if (Input.GetKeyDown(KeyCode.W))
@@ -163,13 +170,24 @@ namespace DungeonCrawl.Actors.Characters
             if (Input.GetKeyDown(KeyCode.G))
             {
                 Serialize.GameState(this);
+                UserInterface.Singleton.SetText("Game State Saved Successfully!",
+                        UserInterface.TextPosition.BottomCenter);
+                _timeCounter = 0;
             }
 
             if (Input.GetKeyDown(KeyCode.H))
             {
                 MapLoader.LoadGameState();
+                UserInterface.Singleton.SetText("Saved Game Loaded Successfully!",
+                        UserInterface.TextPosition.BottomCenter);
+                _timeCounter = 0;
             }
 
+            if (UserInterface.Singleton.HideText(UserInterface.TextPosition.BottomCenter,
+                    _timeCounter, SECONDS_TO_WAIT_FOR_TEXT_DISAPPEARING))
+            {
+                _timeCounter = 0;
+            };
         }
 
         public void AttemptLevelTransition()
