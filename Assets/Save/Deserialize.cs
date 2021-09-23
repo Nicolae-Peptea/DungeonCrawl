@@ -34,7 +34,6 @@ namespace DungeonCrawl.Save
             return files;
         }
 
-
         private static string TryToGetLatestJsonFile(FileInfo[] files)
         {
             IOrderedEnumerable<FileInfo> latestSaveFile = files
@@ -48,7 +47,7 @@ namespace DungeonCrawl.Save
                 throw new ArgumentNullException();
             }
 
-            return latestSaveFile.First().Name;
+            return latestSaveFile.First().FullName;
         }
 
     }
