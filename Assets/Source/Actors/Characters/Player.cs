@@ -162,12 +162,12 @@ namespace DungeonCrawl.Actors.Characters
 
             if (Input.GetKeyDown(KeyCode.G))
             {
-                Serialize.GameState(this);
+                Save.Save.GameState(this);
             }
 
             if (Input.GetKeyDown(KeyCode.H))
             {
-                MapLoader.LoadGameState();
+               MapLoader.LoadGameState();
             }
 
         }

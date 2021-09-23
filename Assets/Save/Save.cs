@@ -13,11 +13,10 @@ using DungeonCrawl.Actors.Items;
 
 namespace DungeonCrawl.Save
 {
-    public static class Serialize
+    public static class Save
     {
        public static void GameState(Player player)
         {
-
             PlayerToSave playerToSerialize = new PlayerToSave(player);
             List<ItemToSave> items = PrepareItemsToSerialize();
             List<CharacterToSave> enemies = PrepareCharactersToSerialize();

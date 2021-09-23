@@ -56,17 +56,20 @@
     <Compile Include="Assets\Source\Actors\Static\Wall.cs" />
     <Compile Include="Assets\Source\Actors\Items\ItemType.cs" />
     <Compile Include="Assets\Source\Actors\Static\Floor.cs" />
+    <Compile Include="Assets\Load\LoadGame.cs" />
     <Compile Include="Assets\Source\Actors\Items\Sword.cs" />
     <Compile Include="Assets\Source\Core\CameraController.cs" />
     <Compile Include="Assets\Source\Core\UserInterface.cs" />
     <Compile Include="Assets\Source\Actors\Actor.cs" />
-    <Compile Include="Assets\Save\Serialize.cs" />
+    <Compile Include="Assets\Save\Save.cs" />
     <Compile Include="Assets\Source\Actors\Items\Key.cs" />
     <Compile Include="Assets\Source\Actors\Characters\Player.cs" />
     <Compile Include="Assets\Source\Actors\Items\HealthPotion.cs" />
+    <Compile Include="Assets\Save\CharacterToSave.cs" />
     <Compile Include="Assets\Source\Actors\Characters\Character.cs" />
     <Compile Include="Assets\Source\Actors\Characters\Orc.cs" />
     <Compile Include="Assets\Save\PlayerToSave.cs" />
+    <Compile Include="Assets\Save\Deserialize.cs" />
     <Compile Include="Assets\Source\Inventory.cs" />
     <Compile Include="Assets\Source\Actors\Characters\Ghost.cs" />
     <Compile Include="Assets\Source\Actors\Characters\Skeleton.cs" />
@@ -79,10 +82,7 @@
     <Compile Include="Assets\Source\Core\ActorManager.cs" />
     <Compile Include="Assets\Source\Actors\Static\Skull.cs" />
     <Compile Include="Assets\Source\Actors\Portal.cs" />
-    <Compile Include="Assets\Save\Deserialize.cs" />
-    <Compile Include="Assets\Save\CharacterToSave.cs" />
     <Compile Include="Assets\Save\GameState.cs" />
-    <Compile Include="Assets\Load\LoadGame.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

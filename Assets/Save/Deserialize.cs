@@ -2,25 +2,54 @@
 using Newtonsoft.Json;
 using System.Linq;
 using UnityEngine;
+using System;
 
 namespace DungeonCrawl.Save
 {
-    public class Deserialize
+    public static class Deserialize
     {
         public static GameState DeserializeGameState()
         {
             string foldePath = Application.dataPath + @"/exported_saves";
-            var directory = new DirectoryInfo(foldePath);
+            DirectoryInfo directory = new DirectoryInfo(foldePath);
 
-            string latestSaveFile = directory.GetFiles()
-             .Where(f => f.Extension == ".json")
-             .OrderByDescending(f => f.LastWriteTime)
-             .First().FullName;
+            FileInfo[] files = TryToGetFiles(directory);
+            string fileName = TryToGetLatestJsonFile(files);
 
-            string json = File.ReadAllText(latestSaveFile);
-
+            string json = File.ReadAllText(fileName);
             GameState gameState = JsonConvert.DeserializeObject<GameState>(json);
+            
             return gameState;
         }
+
+        private static FileInfo[] TryToGetFiles(DirectoryInfo directory)
+        {
+            FileInfo[] files = directory.GetFiles();
+
+            if (files.Length == 0)
+            {
+                throw new NullReferenceException();
+            }
+
+            return files;
+        }
+
+
+        private static string TryToGetLatestJsonFile(FileInfo[] files)
+        {
+            IOrderedEnumerable<FileInfo> latestSaveFile = files
+             .Where(f => f.Extension == ".json")
+             .OrderByDescending(f => f.LastWriteTime);
+
+            bool tesy = !latestSaveFile.Any();
+
+            if (!latestSaveFile.Any())
+            {
+                throw new ArgumentNullException();
+            }
+
+            return latestSaveFile.First().Name;
+        }
+
     }
 }

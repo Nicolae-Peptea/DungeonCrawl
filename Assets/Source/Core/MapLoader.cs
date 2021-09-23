@@ -122,14 +122,26 @@ namespace DungeonCrawl.Core
 
         public static void LoadGameState()
         {
-            var gameState = Deserialize.DeserializeGameState();
-            int mapLevel = gameState.player.CurrentLevel;
-            ActorManager.Singleton.DestroyAllActors();
-            LoadMap(mapLevel);
-            ActorManager.Singleton.DestroyItemAndCharacters();
-            ActorManager.Singleton.SpawnPlayerFromLoadedGame(gameState);
-            ActorManager.Singleton.SpawnItemsFromLoadedGame(gameState);
-            ActorManager.Singleton.SpawnEnemiesFromLoadedGame(gameState);
+            try
+            {
+                var gameState = Deserialize.DeserializeGameState();
+                int mapLevel = gameState.player.CurrentLevel;
+                ActorManager.Singleton.DestroyAllActors();
+                LoadMap(mapLevel);
+                ActorManager.Singleton.DestroyItemAndCharacters();
+                ActorManager.Singleton.SpawnPlayerFromLoadedGame(gameState);
+                ActorManager.Singleton.SpawnItemsFromLoadedGame(gameState);
+                ActorManager.Singleton.SpawnEnemiesFromLoadedGame(gameState);
+            }
+            catch (NullReferenceException)
+            {
+
+                Debug.Log("Nothing saved");
+            }
+            catch (ArgumentNullException)
+            {
+                Debug.Log("Not a json File");
+            }
         }
     }
 }
