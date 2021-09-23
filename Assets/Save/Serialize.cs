@@ -20,7 +20,7 @@ namespace DungeonCrawl.Save
 
             PlayerToSave playerToSerialize = new PlayerToSave(player);
             List<ItemToSave> items = PrepareItemsToSerialize();
-            List<CharacterToSave> enemies = PrepareCharacterToSerialize();
+            List<CharacterToSave> enemies = PrepareCharactersToSerialize();
 
             GameState gameState = new GameState(playerToSerialize, items, enemies);
             string gameStateJson = JsonConvert.SerializeObject(gameState);
@@ -45,7 +45,7 @@ namespace DungeonCrawl.Save
             return objectsToSerialize;
         }
 
-        private static List<CharacterToSave> PrepareCharacterToSerialize()
+        private static List<CharacterToSave> PrepareCharactersToSerialize()
         {
             HashSet<Actor> actors = ActorManager.Singleton.GetAllActors();
 

@@ -7,6 +7,7 @@ using System.Linq;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using DungeonCrawl.Save;
+using Assets.Source.Core;
 
 namespace DungeonCrawl.Actors.Characters
 {
@@ -162,7 +163,6 @@ namespace DungeonCrawl.Actors.Characters
             if (Input.GetKeyDown(KeyCode.G))
             {
                 Serialize.GameState(this);
-                //Deserialize.DeserializeGameState();
             }
 
             if (Input.GetKeyDown(KeyCode.H))
@@ -271,6 +271,7 @@ namespace DungeonCrawl.Actors.Characters
 
             Item itemAtPosition = ActorManager.Singleton.GetActorAt<Item>(Position);
             itemAtPosition.Hide();
+            itemAtPosition.Show();
 
         }
 
@@ -306,7 +307,6 @@ namespace DungeonCrawl.Actors.Characters
         {
             GameObject.Find("HPNumber").GetComponent<Text>().text = "" + Health;
             GameObject.Find("AttackNumber").GetComponent<Text>().text = "" + Attack;
-            //GameObject.Find("DefenseNumber").GetComponent<Text>().text = "" + Attack;
         }
 
         private void UpdateEquipment(Item item)
