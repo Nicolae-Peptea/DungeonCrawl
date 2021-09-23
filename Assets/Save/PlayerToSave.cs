@@ -33,7 +33,7 @@ namespace DungeonCrawl.Save
         {
             Health = player.Health;
             Attack = player.Attack;
-            CurrentSpriteId = player.currentSpriteId;
+            CurrentSpriteId = player.CurrentSpriteId;
             DefaultName = player.DefaultName;
             this.Position = player.Position;
             this.CurrentLevel = player.CurrentMapLevel;

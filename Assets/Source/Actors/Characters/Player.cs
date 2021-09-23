@@ -14,15 +14,15 @@ namespace DungeonCrawl.Actors.Characters
     {
         public override int DefaultSpriteId => 24;
 
-        public int currentSpriteId = 24;
+        public int CurrentSpriteId { get; private set; } = 24;
 
         public override string DefaultName => "Player";
 
-        public override int Health { get; set; } = 100;
+        public override int Health { get; protected set; } = 100;
 
-        public int CurrentMapLevel { get; set; } = 1;
+        public int CurrentMapLevel { get; private set; } = 1;
 
-        public override int Attack { get; set; } = 5;
+        public override int Attack { get; protected set; } = 5;
 
         private Inventory _inventory = new Inventory();
 
@@ -41,6 +41,63 @@ namespace DungeonCrawl.Actors.Characters
         public List<Item> GetEquipment()
         {
             return _equipment;
+        }
+
+        public override void SetFromLoaded(GameState gameState)
+        {
+            PlayerToSave loadedPlayer = gameState.player;
+
+            (int x, int y) positionOfLoadedPlayer = loadedPlayer.Position;
+            int mapLevelOfLoadedPlayer = loadedPlayer.CurrentLevel;
+            List<Item> loadedInventory = GetGearFromLoadedGame(loadedPlayer.Inventory);
+            List<Item> loadedEquipment = GetGearFromLoadedGame(loadedPlayer.Equipment);
+            int healthOfLoadedPlayer = loadedPlayer.Health;
+            int attackOfLoadedPlayer = loadedPlayer.Attack;
+            int spriteId = loadedPlayer.CurrentSpriteId;
+
+            this.Position = (positionOfLoadedPlayer.x, positionOfLoadedPlayer.y);
+            this.Health = healthOfLoadedPlayer;
+            this.Attack = attackOfLoadedPlayer;
+            this._inventory.SetInventory(loadedInventory);
+            this._equipment = loadedEquipment;
+            this.CurrentMapLevel = mapLevelOfLoadedPlayer;
+            this.CurrentSpriteId = spriteId;
+            this.SetSprite(spriteId);
+        }
+
+        private List<Item> GetGearFromLoadedGame(List<ItemToSave> gear)
+        {
+            var newGear = new List<Item>();
+
+            foreach (var item in gear)
+            {
+                var go = new GameObject();
+                Item component = null;
+
+                go.AddComponent<SpriteRenderer>();
+                go.name = item.Name;
+
+                switch (item.Name)
+                {
+                    case "Sword":
+                        component = go.AddComponent<Sword>();
+                        break;
+                    case "Axe":
+                        component = go.AddComponent<Axe>();
+                        break;
+                    case "Health":
+                        component = go.AddComponent<HealthPotion>();
+                        break;
+                    case "Key":
+                        component = go.AddComponent<Key>();
+                        break;
+
+                }
+
+                newGear.Add(component);
+            }
+
+            return newGear;
         }
 
 
@@ -63,7 +120,7 @@ namespace DungeonCrawl.Actors.Characters
             var go = new GameObject();
             go.AddComponent<SpriteRenderer>();
             var component = go.AddComponent<Player>();
-            component.SetSprite(currentSpriteId);
+            component.SetSprite(CurrentSpriteId);
             component.Health = Health;
             component.Attack = Attack;
             component.CurrentMapLevel = CurrentMapLevel;
@@ -260,12 +317,12 @@ namespace DungeonCrawl.Actors.Characters
             if (_equipment.Any(item => item is Sword))
             {
                 SetSprite(skinWithSword);
-                currentSpriteId = skinWithSword;
+                CurrentSpriteId = skinWithSword;
             }
             if (_equipment.Any(item => item is Axe))
             {
                 SetSprite(skinWithAxe);
-                currentSpriteId = skinWithAxe;
+                CurrentSpriteId = skinWithAxe;
             }
         }
 

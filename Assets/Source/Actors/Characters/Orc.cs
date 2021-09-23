@@ -4,9 +4,9 @@ namespace DungeonCrawl.Actors.Characters
 {
     public class Orc : Character
     {
-        public override int Health { get; set; } = 30;
+        public override int Health { get; protected set; } = 30;
 
-        public override int Attack { get; set; } = 4;
+        public override int Attack { get; protected set; } = 4;
 
         private float seconds = 0;
 

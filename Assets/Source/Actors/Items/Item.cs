@@ -2,7 +2,7 @@
 {
     public abstract class Item : Actor
     {
-        public bool SomethingAbove { get; private set; } = false;
+        public bool SomethingAbove { get; set; } = false;
 
         public abstract ItemType Type { get; }
 

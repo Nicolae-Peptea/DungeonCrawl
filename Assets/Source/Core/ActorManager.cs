@@ -106,31 +106,18 @@ namespace DungeonCrawl.Core
             return _spriteAtlas.GetSprite($"kenney_transparent_{id}");
         }
 
-        public Player SpawnPlayerFromLoadedGame(PlayerToSave loadedPlayer)
+        public Player SpawnPlayerFromLoadedGame(GameState gameState)
         {
-            var positionOfLoadedPlayer = loadedPlayer.Position;
-            var mapLevelOfLoadedPlayer = loadedPlayer.CurrentLevel;
-            var inventoryOfLoadedPlayer = loadedPlayer.Inventory;
-            var equipmentOfLoadedPlayer = loadedPlayer.Equipment;
-            var healthOfLoadedPlayer = loadedPlayer.Health;
-            var attackOfLoadedPlayer = loadedPlayer.Attack;
-            var spriteId = loadedPlayer.CurrentSpriteId;
+            string playerDefaulName = gameState.player.DefaultName;
 
             var go = new GameObject();
             go.AddComponent<SpriteRenderer>();
-
+            go.name = playerDefaulName;
+            
             var component = go.AddComponent<Player>();
-
-            go.name = component.DefaultName;
-            component.Position = (positionOfLoadedPlayer.x, positionOfLoadedPlayer.y);
-            component.Health = healthOfLoadedPlayer;
-            component.Attack = attackOfLoadedPlayer;
-            component.CurrentMapLevel = mapLevelOfLoadedPlayer;
-            component.currentSpriteId = spriteId;
-            component.SetSprite(spriteId);
+            component.SetFromLoaded(gameState);
 
             _allActors.Add(component);
-
             return component;
         }
 

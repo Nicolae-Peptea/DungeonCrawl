@@ -1,13 +1,14 @@
 ﻿using DungeonCrawl.Core;
+using DungeonCrawl.Save;
 using UnityEngine;
 
 namespace DungeonCrawl.Actors.Characters
 {
     public abstract class Character : Actor
     {
-        public abstract int Health { get; set; }
+        public abstract int Health { get; protected set; }
 
-        public abstract int Attack { get; set; }
+        public abstract int Attack { get; protected set; }
 
         public bool IsAlive { get; set; } = true;
 
@@ -22,6 +23,11 @@ namespace DungeonCrawl.Actors.Characters
 
                 ActorManager.Singleton.DestroyActor(this);
             }
+        }
+
+        public virtual void SetFromLoaded(GameState gameState)
+        {
+
         }
 
         protected abstract void OnDeath();
