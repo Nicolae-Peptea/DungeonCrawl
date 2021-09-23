@@ -1,4 +1,8 @@
-﻿using System;
+﻿using DungeonCrawl.Actors.Items;
+using DungeonCrawl.Save;
+using System;
+using System.Collections.Generic;
+using UnityEngine;
 
 namespace DungeonCrawl
 {
@@ -46,7 +50,7 @@ namespace DungeonCrawl
 
         public static Direction GetDirectionFromCadran(Quadrant cadran)
         {
-            Random rand = new System.Random();
+            System.Random rand = new System.Random();
             Enum[] enumValues = cadran switch
             {
                 Quadrant.FIRST => new Enum[] { Direction.Down, Direction.Left },
@@ -56,6 +60,44 @@ namespace DungeonCrawl
                 _ => (Enum[])Enum.GetValues(typeof(Direction)),
             };
             return (Direction)enumValues.GetValue(rand.Next(enumValues.Length));
+        }
+
+        public static List<Item> GetGearFromLoadedGame(List<ItemToSave> gear)
+        {
+            var newGear = new List<Item>();
+
+            foreach (var item in gear)
+            {
+                var go = new GameObject();
+                Item component = null;
+
+                go.AddComponent<SpriteRenderer>();
+                go.name = item.Name;
+
+                switch (item.Name)
+                {
+                    case "Sword":
+                        component = go.AddComponent<Sword>();
+                        break;
+                    case "Axe":
+                        component = go.AddComponent<Axe>();
+                        break;
+                    case "Health":
+                        component = go.AddComponent<HealthPotion>();
+                        break;
+                    case "Key":
+                        component = go.AddComponent<Key>();
+                        break;
+
+                }
+
+                component.Position = item.Position;
+                component.SomethingAbove = item.SomethingAbove;
+
+                newGear.Add(component);
+            }
+
+            return newGear;
         }
     }
 }

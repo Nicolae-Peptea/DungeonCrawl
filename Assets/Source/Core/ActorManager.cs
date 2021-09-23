@@ -106,21 +106,6 @@ namespace DungeonCrawl.Core
             return _spriteAtlas.GetSprite($"kenney_transparent_{id}");
         }
 
-        public Player SpawnPlayerFromLoadedGame(GameState gameState)
-        {
-            string playerDefaulName = gameState.player.DefaultName;
-
-            var go = new GameObject();
-            go.AddComponent<SpriteRenderer>();
-            go.name = playerDefaulName;
-            
-            var component = go.AddComponent<Player>();
-            component.SetFromLoaded(gameState);
-
-            _allActors.Add(component);
-            return component;
-        }
-
         /// <summary>
         ///     Spawns given Actor type at given position
         /// </summary>
@@ -156,9 +141,6 @@ namespace DungeonCrawl.Core
             return component;
         }
 
-
-
-
         public Player SpawnPlayer((int x, int y) position, Player player = null)
         {
             var component = player;
@@ -167,6 +149,29 @@ namespace DungeonCrawl.Core
             _allActors.Add(component);
 
             return component;
+        }
+
+        public Player SpawnPlayerFromLoadedGame(GameState gameState)
+        {
+            string playerDefaulName = gameState.player.DefaultName;
+
+            var go = new GameObject();
+            go.AddComponent<SpriteRenderer>();
+            go.name = playerDefaulName;
+
+            var component = go.AddComponent<Player>();
+            component.SetFromLoaded(gameState);
+
+            _allActors.Add(component);
+            return component;
+        }
+
+        public void SpawnItemsFromLoadedGame(GameState gameState)
+        {
+            List<ItemToSave> loadedItems = gameState.items;
+            List <Item> convertedItems = Utilities.GetGearFromLoadedGame(loadedItems);
+
+            convertedItems.ForEach(item => _allActors.Add(item));
         }
     }
 }

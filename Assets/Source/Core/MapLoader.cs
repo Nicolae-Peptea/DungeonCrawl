@@ -128,6 +128,7 @@ namespace DungeonCrawl.Core
             LoadMap(mapLevel);
             ActorManager.Singleton.DestroyItemAndCharacters();
             ActorManager.Singleton.SpawnPlayerFromLoadedGame(gameState);
+            ActorManager.Singleton.SpawnItemsFromLoadedGame(gameState);
         }
     }
 }

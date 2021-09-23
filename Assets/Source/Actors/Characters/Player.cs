@@ -49,8 +49,8 @@ namespace DungeonCrawl.Actors.Characters
 
             (int x, int y) positionOfLoadedPlayer = loadedPlayer.Position;
             int mapLevelOfLoadedPlayer = loadedPlayer.CurrentLevel;
-            List<Item> loadedInventory = GetGearFromLoadedGame(loadedPlayer.Inventory);
-            List<Item> loadedEquipment = GetGearFromLoadedGame(loadedPlayer.Equipment);
+            List<Item> loadedInventory = Utilities.GetGearFromLoadedGame(loadedPlayer.Inventory);
+            List<Item> loadedEquipment = Utilities.GetGearFromLoadedGame(loadedPlayer.Equipment);
             int healthOfLoadedPlayer = loadedPlayer.Health;
             int attackOfLoadedPlayer = loadedPlayer.Attack;
             int spriteId = loadedPlayer.CurrentSpriteId;
@@ -60,46 +60,11 @@ namespace DungeonCrawl.Actors.Characters
             this.Attack = attackOfLoadedPlayer;
             this._inventory.SetInventory(loadedInventory);
             this._equipment = loadedEquipment;
+            UpdateEquipment(loadedEquipment.FirstOrDefault());
             this.CurrentMapLevel = mapLevelOfLoadedPlayer;
             this.CurrentSpriteId = spriteId;
             this.SetSprite(spriteId);
         }
-
-        private List<Item> GetGearFromLoadedGame(List<ItemToSave> gear)
-        {
-            var newGear = new List<Item>();
-
-            foreach (var item in gear)
-            {
-                var go = new GameObject();
-                Item component = null;
-
-                go.AddComponent<SpriteRenderer>();
-                go.name = item.Name;
-
-                switch (item.Name)
-                {
-                    case "Sword":
-                        component = go.AddComponent<Sword>();
-                        break;
-                    case "Axe":
-                        component = go.AddComponent<Axe>();
-                        break;
-                    case "Health":
-                        component = go.AddComponent<HealthPotion>();
-                        break;
-                    case "Key":
-                        component = go.AddComponent<Key>();
-                        break;
-
-                }
-
-                newGear.Add(component);
-            }
-
-            return newGear;
-        }
-
 
         public override bool OnCollision(Actor anotherActor)
         {
