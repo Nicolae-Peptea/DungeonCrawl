@@ -180,7 +180,7 @@ namespace DungeonCrawl.Actors.Characters
 
             if (Input.GetKeyDown(KeyCode.F9))
             {
-                Serialize.GameState(this);
+                SaveGame.GameState(this);
                 UserInterface.Singleton.SetText("Game State Saved Successfully!",
                         UserInterface.TextPosition.BottomCenter);
                 _timeCounter = 0;
