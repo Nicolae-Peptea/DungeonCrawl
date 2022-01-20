@@ -15,7 +15,7 @@ namespace DungeonCrawl.Actors.Characters
                 ApplyDamage(player.Attack);
                 player.OnCollision(this);
             }
-               
+
             return false;
         }
 

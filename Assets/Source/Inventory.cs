@@ -1,8 +1,8 @@
 ﻿using DungeonCrawl.Actors.Items;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Linq;
 
 public class Inventory : MonoBehaviour
 {
@@ -37,7 +37,7 @@ public class Inventory : MonoBehaviour
 
         foreach (var gameObject in GameObject.FindGameObjectsWithTag("inventory"))
         {
-            gameObject.transform.localScale = IsInventoryVisible 
+            gameObject.transform.localScale = IsInventoryVisible
                 ? new Vector3(0, 0, 0)
                 : new Vector3(1, 1, 1);
         }
@@ -65,7 +65,7 @@ public class Inventory : MonoBehaviour
         int keysNumber = _inventory.Count(n => n is Key);
         int potionsNumber = _inventory.Count(n => n is HealthPotion);
 
-        return new int[] { swordNumber, axesNumber, keysNumber, potionsNumber};
+        return new int[] { swordNumber, axesNumber, keysNumber, potionsNumber };
     }
 
     public void RemoveItem(Item item)
@@ -75,6 +75,6 @@ public class Inventory : MonoBehaviour
 
     public Item SelectItemByType(ItemType itemType)
     {
-        return _inventory.FirstOrDefault(item => item.Type == itemType); 
+        return _inventory.FirstOrDefault(item => item.Type == itemType);
     }
 }

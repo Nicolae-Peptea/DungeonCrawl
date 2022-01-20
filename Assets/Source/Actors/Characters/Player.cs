@@ -1,13 +1,13 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
+﻿using Assets.Source.Core;
 using DungeonCrawl.Actors.Items;
 using DungeonCrawl.Core;
-using System;
-using System.Linq;
-using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 using DungeonCrawl.Save;
-using Assets.Source.Core;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace DungeonCrawl.Actors.Characters
 {
@@ -28,6 +28,11 @@ namespace DungeonCrawl.Actors.Characters
         private Inventory _inventory = new Inventory();
 
         private List<Item> _equipment = new List<Item>();
+
+        private float _timeCounter = 0;
+
+        private const float SECONDS_TO_WAIT_FOR_TEXT_DISAPPEARING = 5;
+        public bool AreControlsVisible { get; set; } = false;
 
         private void Start()
         {
@@ -109,9 +114,17 @@ namespace DungeonCrawl.Actors.Characters
             SceneManager.LoadScene("End");
         }
 
+
         protected override void OnUpdate(float deltaTime)
         {
+            _timeCounter += deltaTime;
+
             DisplayStatus();
+
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                Application.Quit();
+            }
 
             if (Input.GetKeyDown(KeyCode.W))
             {
@@ -143,15 +156,9 @@ namespace DungeonCrawl.Actors.Characters
                 _inventory.UpdateInventoryNumbers();
             }
 
-            if (Input.GetKeyDown(KeyCode.I))
+            if (Input.GetKeyDown(KeyCode.C))
             {
-                _inventory.DisplayInventory();
-            }
-
-            if (Input.GetKeyDown(KeyCode.H))
-            {
-                TryToConsumeItem(ItemType.HEALTH);
-                _inventory.UpdateInventoryNumbers();
+                DisplayControls();
             }
 
             if (Input.GetKeyDown(KeyCode.F))
@@ -160,16 +167,38 @@ namespace DungeonCrawl.Actors.Characters
                 _inventory.UpdateInventoryNumbers();
             }
 
-            if (Input.GetKeyDown(KeyCode.G))
-            {
-                Save.Save.GameState(this);
-            }
-
             if (Input.GetKeyDown(KeyCode.H))
             {
-               MapLoader.LoadGameState();
+                TryToConsumeItem(ItemType.HEALTH);
+                _inventory.UpdateInventoryNumbers();
             }
 
+            if (Input.GetKeyDown(KeyCode.I))
+            {
+                _inventory.DisplayInventory();
+            }
+
+            if (Input.GetKeyDown(KeyCode.F9))
+            {
+                Serialize.GameState(this);
+                UserInterface.Singleton.SetText("Game State Saved Successfully!",
+                        UserInterface.TextPosition.BottomCenter);
+                _timeCounter = 0;
+            }
+
+            if (Input.GetKeyDown(KeyCode.F10))
+            {
+                MapLoader.LoadGameState();
+                UserInterface.Singleton.SetText("Saved Game Loaded Successfully!",
+                        UserInterface.TextPosition.BottomCenter);
+                _timeCounter = 0;
+            }
+
+            if (UserInterface.Singleton.HideText(UserInterface.TextPosition.BottomCenter,
+                    _timeCounter, SECONDS_TO_WAIT_FOR_TEXT_DISAPPEARING))
+            {
+                _timeCounter = 0;
+            };
         }
 
         public void AttemptLevelTransition()
@@ -301,6 +330,19 @@ namespace DungeonCrawl.Actors.Characters
             {
                 gameObject.transform.localScale = new Vector3(visible, visible, visible);
             }
+        }
+
+        public void DisplayControls()
+        {
+
+            foreach (var gameObject in GameObject.FindGameObjectsWithTag("controls"))
+            {
+                gameObject.transform.localScale = AreControlsVisible
+                    ? new Vector3(0, 0, 0)
+                    : new Vector3(1, 1, 1);
+            }
+
+            AreControlsVisible = !AreControlsVisible;
         }
 
         private void UpdateStatus()

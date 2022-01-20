@@ -35,7 +35,7 @@ namespace Assets.Source.Core
                 Destroy(this);
                 return;
             }
-            
+
             Singleton = this;
 
             _textComponents = GetComponentsInChildren<TextMeshProUGUI>();
@@ -48,7 +48,17 @@ namespace Assets.Source.Core
         /// <param name="textPosition"></param>
         public void SetText(string text, TextPosition textPosition)
         {
-            _textComponents[(int) textPosition].text = text;
+            _textComponents[(int)textPosition].text = text;
+        }
+
+        public bool HideText(TextPosition textPosition, float timer = 1, float timerLimit = 0)
+        {
+            if (timer >= timerLimit)
+            {
+                _textComponents[(int)textPosition].text = string.Empty;
+                return true;
+            }
+            return false;
         }
     }
 }

@@ -2,7 +2,6 @@
 using DungeonCrawl.Actors.Items;
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace DungeonCrawl.Save
 {
@@ -15,13 +14,13 @@ namespace DungeonCrawl.Save
 
         public int Attack { get; set; }
 
-        public int CurrentSpriteId { get;  set; }
+        public int CurrentSpriteId { get; set; }
 
-        public string DefaultName { get;  set; }
+        public string DefaultName { get; set; }
 
         public int CurrentLevel { get; set; }
 
-        public (int x, int y) Position { get;  set; }
+        public (int x, int y) Position { get; set; }
 
         public List<ItemToSave> Inventory { get; set; } = new List<ItemToSave>();
 
@@ -31,7 +30,7 @@ namespace DungeonCrawl.Save
         {
         }
 
-        public PlayerToSave (Player player)
+        public PlayerToSave(Player player)
         {
             Health = player.Health;
             Attack = player.Attack;

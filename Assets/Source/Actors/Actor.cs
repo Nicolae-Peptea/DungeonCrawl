@@ -1,8 +1,8 @@
 ﻿using Assets.Source.Core;
+using DungeonCrawl.Actors.Characters;
 using DungeonCrawl.Actors.Items;
 using DungeonCrawl.Core;
 using UnityEngine;
-using DungeonCrawl.Actors.Characters;
 
 namespace DungeonCrawl.Actors
 {
@@ -45,9 +45,9 @@ namespace DungeonCrawl.Actors
             (int x, int y) targetPosition = (Position.x + vector.x, Position.y + vector.y);
 
             Actor actorAtTargetPosition = ActorManager.Singleton.GetActorAt(targetPosition);
-            
-            UserInterface.Singleton.SetText("",
-                        UserInterface.TextPosition.BottomCenter);
+
+            //UserInterface.Singleton.SetText("",
+            //            UserInterface.TextPosition.BottomCenter);
 
             if (actorAtTargetPosition == null)
             {

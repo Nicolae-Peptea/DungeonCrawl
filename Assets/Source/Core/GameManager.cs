@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace DungeonCrawl.Core
 {
@@ -7,9 +8,30 @@ namespace DungeonCrawl.Core
     /// </summary>
     public class GameManager : MonoBehaviour
     {
-        private void Start()
+        public bool isNewGame { get; set; } = true;
+        public void Start()
         {
-            MapLoader.LoadMap(1);
+            if (isNewGame)
+            {
+                MapLoader.LoadMap(1);
+            }
+            else
+            {
+                MapLoader.LoadMap(1);
+                MapLoader.LoadGameState();
+            }
+        }
+
+        public void NewGame()
+        {
+            SceneManager.LoadScene("Game");
+            isNewGame = true;
+        }
+
+        public void LoadGame()
+        {
+            SceneManager.LoadScene("Game");
+            isNewGame = false;
         }
     }
 }

@@ -1,8 +1,5 @@
 ﻿using DungeonCrawl.Core;
-using DungeonCrawl.Save;
 using System;
-using System.Collections.Generic;
-using UnityEngine;
 
 namespace DungeonCrawl.Actors.Characters
 {
@@ -16,7 +13,7 @@ namespace DungeonCrawl.Actors.Characters
 
         public void ApplyDamage(int damage)
         {
-           Health -= damage;
+            Health -= damage;
 
             if (Health <= 0)
             {

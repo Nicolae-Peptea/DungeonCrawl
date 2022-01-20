@@ -10,6 +10,7 @@ TagManager:
   - deadScreen
   - winScreen
   - equipment
+  - controls
   layers:
   - Default
   - TransparentFX

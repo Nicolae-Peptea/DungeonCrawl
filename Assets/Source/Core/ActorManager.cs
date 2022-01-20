@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using DungeonCrawl.Actors;
+﻿using DungeonCrawl.Actors;
 using DungeonCrawl.Actors.Characters;
 using DungeonCrawl.Actors.Items;
 using DungeonCrawl.Save;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.U2D;
 
@@ -169,7 +169,7 @@ namespace DungeonCrawl.Core
         public void SpawnItemsFromLoadedGame(GameState gameState)
         {
             List<ItemToSave> loadedItems = gameState.items;
-            List <Item> convertedItems = Utilities.GetGearFromLoadedGame(loadedItems);
+            List<Item> convertedItems = Utilities.GetGearFromLoadedGame(loadedItems);
 
             convertedItems.ForEach(item => _allActors.Add(item));
             foreach (var item in convertedItems)

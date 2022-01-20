@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace DungeonCrawl.Actors.Items
+﻿namespace DungeonCrawl.Actors.Items
 {
     public class Key : Item
     {
