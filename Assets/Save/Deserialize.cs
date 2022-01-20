@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.IO;
 using System.Linq;
 using UnityEngine;
-using System;
 
 namespace DungeonCrawl.Save
 {
@@ -18,7 +18,7 @@ namespace DungeonCrawl.Save
 
             string json = File.ReadAllText(fileName);
             GameState gameState = JsonConvert.DeserializeObject<GameState>(json);
-            
+
             return gameState;
         }
 

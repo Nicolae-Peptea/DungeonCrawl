@@ -1,21 +1,19 @@
-﻿using System;
-using System.IO;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
+﻿using DungeonCrawl.Actors;
 using DungeonCrawl.Actors.Characters;
-using UnityEngine;
-using DungeonCrawl.Actors;
-using DungeonCrawl.Core;
 using DungeonCrawl.Actors.Items;
+using DungeonCrawl.Core;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using UnityEngine;
 
 namespace DungeonCrawl.Save
 {
     public static class SaveGame
     {
-       public static void GameState(Player player)
+        public static void GameState(Player player)
         {
             PlayerToSave playerToSerialize = new PlayerToSave(player);
             List<ItemToSave> items = PrepareItemsToSerialize();
