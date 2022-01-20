@@ -121,6 +121,11 @@ namespace DungeonCrawl.Actors.Characters
 
             DisplayStatus();
 
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                Application.Quit();
+            }
+
             if (Input.GetKeyDown(KeyCode.W))
             {
                 // Move up
