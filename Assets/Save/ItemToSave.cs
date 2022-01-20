@@ -1,5 +1,5 @@
-﻿using System;
-using DungeonCrawl.Actors.Items;
+﻿using DungeonCrawl.Actors.Items;
+using System;
 
 namespace DungeonCrawl.Save
 {
@@ -13,7 +13,7 @@ namespace DungeonCrawl.Save
 
         public int Type { get; set; }
 
-        public  int Value { get; set; }
+        public int Value { get; set; }
 
         public (int x, int y) Position { get; set; }
 

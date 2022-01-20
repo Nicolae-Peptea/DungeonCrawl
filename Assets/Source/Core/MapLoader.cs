@@ -25,11 +25,11 @@ namespace DungeonCrawl.Core
             var split = lines[0].Split(' ');
             var width = int.Parse(split[0]);
             var height = int.Parse(split[1]);
-            
+
             // Create actors
             for (var y = 0; y < height; y++)
             {
-                var line = lines[y+1];
+                var line = lines[y + 1];
                 for (var x = 0; x < width; x++)
                 {
                     var character = line[x];
@@ -91,7 +91,7 @@ namespace DungeonCrawl.Core
                     ActorManager.Singleton.Spawn<Floor>(position);
                     break;
                 case 'i':
-                      ActorManager.Singleton.Spawn<Sword>(position);
+                    ActorManager.Singleton.Spawn<Sword>(position);
                     ActorManager.Singleton.Spawn<Floor>(position);
                     break;
                 case 'a':
@@ -99,7 +99,7 @@ namespace DungeonCrawl.Core
                     ActorManager.Singleton.Spawn<Floor>(position);
                     break;
                 case 'k':
-                     ActorManager.Singleton.Spawn<Key>(position);
+                    ActorManager.Singleton.Spawn<Key>(position);
                     ActorManager.Singleton.Spawn<Floor>(position);
                     break;
                 case 'd':

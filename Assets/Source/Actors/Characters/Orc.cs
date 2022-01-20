@@ -28,7 +28,7 @@ namespace DungeonCrawl.Actors.Characters
                 Direction randomDirection = Utilities.GetRandomDirection();
                 TryMove(randomDirection);
                 seconds = 0;
-            } 
+            }
         }
 
         protected override void OnDeath()

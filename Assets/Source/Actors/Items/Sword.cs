@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-namespace DungeonCrawl.Actors.Items
+﻿namespace DungeonCrawl.Actors.Items
 {
     public class Sword : Item
     {

@@ -1,6 +1,5 @@
-﻿using UnityEngine;
-using DungeonCrawl.Core;
-using System;
+﻿using DungeonCrawl.Core;
+using UnityEngine;
 
 namespace DungeonCrawl.Actors.Characters
 {

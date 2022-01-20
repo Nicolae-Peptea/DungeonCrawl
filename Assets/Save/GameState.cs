@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace DungeonCrawl.Save
 {
@@ -12,7 +8,7 @@ namespace DungeonCrawl.Save
         public List<ItemToSave> items = new List<ItemToSave>();
         public List<CharacterToSave> enemies = new List<CharacterToSave>();
 
-       public GameState(PlayerToSave player, List<ItemToSave> items, List<CharacterToSave> enemies) 
+        public GameState(PlayerToSave player, List<ItemToSave> items, List<CharacterToSave> enemies)
         {
             this.player = player;
             this.items = items;
