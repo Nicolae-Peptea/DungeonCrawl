@@ -1,0 +1,67 @@
+﻿using System;
+using System.IO;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
+using DungeonCrawl.Actors.Characters;
+using UnityEngine;
+using DungeonCrawl.Actors;
+using DungeonCrawl.Core;
+using DungeonCrawl.Actors.Items;
+
+namespace DungeonCrawl.Save
+{
+    public static class SaveGame
+    {
+       public static void GameState(Player player)
+        {
+            PlayerToSave playerToSerialize = new PlayerToSave(player);
+            List<ItemToSave> items = PrepareItemsToSerialize();
+            List<CharacterToSave> enemies = PrepareCharactersToSerialize();
+
+            GameState gameState = new GameState(playerToSerialize, items, enemies);
+            string gameStateJson = JsonConvert.SerializeObject(gameState);
+
+            string path = Application.dataPath + @"/exported_saves/" + DateTime.Now.ToString("yyyy'-'MM'-'dd'T'HH'-'mm'-'ss") + ".json";
+            File.WriteAllText(path, gameStateJson);
+        }
+
+        private static List<ItemToSave> PrepareItemsToSerialize()
+        {
+            HashSet<Actor> actors = ActorManager.Singleton.GetAllActors();
+
+            IEnumerable<Item> selectItems = actors.OfType<Item>();
+            List<ItemToSave> objectsToSerialize = new List<ItemToSave>();
+
+            foreach (var item in selectItems)
+            {
+                ItemToSave newCharacter = new ItemToSave(item);
+                objectsToSerialize.Add(newCharacter);
+            }
+
+            return objectsToSerialize;
+        }
+
+        private static List<CharacterToSave> PrepareCharactersToSerialize()
+        {
+            HashSet<Actor> actors = ActorManager.Singleton.GetAllActors();
+
+            IEnumerable<Character> selectItems = actors.OfType<Character>();
+            List<CharacterToSave> objectsToSerialize = new List<CharacterToSave>();
+
+            foreach (var item in selectItems)
+            {
+                if (item is Player)
+                {
+                    continue;
+                }
+                CharacterToSave newCharacter = new CharacterToSave(item);
+                objectsToSerialize.Add(newCharacter);
+            }
+
+            return objectsToSerialize;
+        }
+    }
+}

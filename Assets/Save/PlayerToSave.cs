@@ -9,6 +9,8 @@ namespace DungeonCrawl.Save
     [Serializable]
     public class PlayerToSave
     {
+        #region private fields
+        #endregion
         public int Health { get; set; }
 
         public int Attack { get; set; }
