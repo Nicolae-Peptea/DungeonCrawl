@@ -127,7 +127,7 @@ Save and load:
 - Unzip the file
 - Execute `DungeonCrawl.exe`
 - Check out the controls keys by pressing C
--  Exit game with by pressing ESC
+-  Exit game by pressing ESC
 
 ### If you'd like to edit and test the source code, please, follow these steps:
 
