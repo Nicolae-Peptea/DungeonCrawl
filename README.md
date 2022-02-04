@@ -40,9 +40,7 @@ The rules are simple. The objective of this game is to get out alive from a hunt
 - Pick up items and either consume or equip
 - Skin's player changes according to the equipped item
 - 2 type of monsters skeletons, orcs and ghosts each of them with different moving mechanics
-- Answer questions
 - Inventory, health and attack sections
-- Comment questions and answers
 - Attack monsters by bumping into them
 - Move to the next level only after picking up the key
 - 3 levels of pure hell
